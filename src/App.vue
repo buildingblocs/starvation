@@ -51,7 +51,7 @@
       <v-app-bar-nav-icon v-if="user != null"
                           @click="drawerShown = !drawerShown"/>
       <v-toolbar-title>
-        The Cataclysmic Crash
+        Starvation
       </v-toolbar-title>
       <v-switch v-model="$vuetify.theme.dark" color="orange" label="Dark Mode"
                 style="margin: 15px 15px 0 20px; display: block"/>

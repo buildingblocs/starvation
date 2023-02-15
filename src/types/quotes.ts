@@ -11,15 +11,6 @@ export class QuotableQuote {
   }
 }
 
-export class QuotableQuoteCollection {
-  count!: number
-  lastItemIndex!: number
-  page!: number
-  results!: QuotableQuote[]
-  totalCount!: number
-  totalPages!: number
-}
-
 export class Quote {
   author!: string
   content!: string
@@ -28,9 +19,4 @@ export class Quote {
     this.author = author;
     this.content  = content;
   }
-}
-
-export class InspirationalQuote {
-  quote!: string
-  author!: string
 }
