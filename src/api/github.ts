@@ -12,7 +12,7 @@ async function main(name: string): Promise<Repo[]> {
 
 
   return repos.filter(repo => {
-    return !repo.fork && repo.language
+    return !repo.fork && repo.language;
   });
 }
 
