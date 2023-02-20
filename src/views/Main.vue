@@ -12,7 +12,7 @@
 <!--    </v-card>-->
 
     <v-card>
-      <v-card-title class="pa-8" style="word-break: normal">
+      <v-card-title class="pa-8" style="word-break: normal;">
         {{ content }}
       </v-card-title>
       <div class="text-right pa-8">
