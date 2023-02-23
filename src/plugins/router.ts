@@ -3,7 +3,7 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Main from "@/views/Main.vue";
 import Onboarding from "@/views/Onboarding.vue";
 import { default as Profile } from "@/views/Profile.vue";
-import Challenges from "@/views/challenges.vue";
+import Challenges from "@/views/Challenges.vue";
 
 Vue.use(VueRouter);
 

@@ -1,0 +1,66 @@
+[
+  {
+    "id": 0,
+    "title": "Getting Started",
+    "description": "Set up your development environment and get used to Starvation!",
+    "completed": true,
+    "lastUpdated": 1676978364407,
+    "score": 100
+  },
+  {
+    "id": 1,
+    "title": "Paging for Python",
+    "description": "Refamiliarise yourself with the inner workings of Python...",
+    "completed": true,
+    "lastUpdated": 1677143957326,
+    "score": 99
+  },
+  {
+    "id": 2,
+    "title": "Exploring Starvation",
+    "description": "Get used to the Starvation playstyle before me go in!",
+    "completed": true,
+    "lastUpdated": 1677151081207,
+    "score": 67
+  },
+  {
+    "id": 3,
+    "title": "Combat Cometh",
+    "description": "Let's get into the Combat!",
+    "completed": true,
+    "lastUpdated": 1677154135628,
+    "score": 14
+  },
+  {
+    "id": 4,
+    "title": "Code Crunch",
+    "description": "Find the optimal path!",
+    "completed": false,
+    "lastUpdated": null,
+    "score": 0
+  },
+  {
+    "id": 5,
+    "title": "Destroytion",
+    "description": "Destroy your opponent!",
+    "completed": false,
+    "lastUpdated": null,
+    "score": 0
+  },
+  {
+    "id": 6,
+    "title": "Third Act",
+    "description": "Last Call!",
+    "completed": false,
+    "lastUpdated": null,
+    "score": 0
+  },
+  {
+    "id": 7,
+    "title": "Combat Over",
+    "description": "An Epilogue.",
+    "completed": false,
+    "lastUpdated": null,
+    "score": 0
+  }
+]

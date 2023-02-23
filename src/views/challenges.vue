@@ -1,96 +1,58 @@
 <template>
-  <v-card>
-    <v-card-item>
-      <v-card-title class="red justify-center ">Challenges</v-card-title>
-    </v-card-item>
-
-    <v-list-item v-for="challenge in uncompleted" :key="challenge.i" two-line>
-      <v-sheet class="pa-4 mt-2" height="100" elevation="4" width="100%">
-        <v-list-item-content>
-          <v-list-item-title>
-            {{ `Mission ${challenge.i}: ${challenge.task}` }}
-          </v-list-item-title>
-          <v-list-item-subtitle class="text-wrap">
-            {{ challenge.description }}
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-sheet>
-    </v-list-item>
-
-    <v-card-item>
-      <v-card-title class="green justify-center mt-16">Completed</v-card-title>
-    </v-card-item>
-
-    <v-list-item v-for="challenge in completed" :key="challenge.i" two-line>
-      <v-sheet class="pa-4 mt-2" height="100" elevation="4" width="100%">
-        <v-list-item-content>
-          <v-list-item-title>
-            {{ `Mission ${challenge.i}: ${challenge.task}` }}
-          </v-list-item-title>
-          <v-list-item-subtitle class="text-wrap">
-            {{ challenge.description }}
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-sheet>
-    </v-list-item>
-  </v-card>
+<v-flex>
+  <v-container fluid>
+  <v-card-title class="text--primary">Open Challenges</v-card-title>
+    <v-layout wrap justify-space-around>
+        <v-flex v-for="challenge in incomplete" :key="challenge.id" style="flex-grow: 0; padding-bottom: 40px;">
+          <ChalCard :challenge="challenge"></ChalCard>
+        </v-flex>
+    </v-layout>
+  <v-card-title class="text--primary">Past Challenges</v-card-title>
+    <v-layout wrap justify-space-around>
+        <v-flex v-for="challenge in completed" :key="challenge.id" style="flex-grow: 0; padding-bottom: 40px;">
+          <ChalCard :challenge="challenge"></ChalCard>
+        </v-flex>
+    </v-layout>
+</v-container>
+</v-flex>
 </template>
 
-<!-- <script lang="ts">
+<script lang="ts">
 import Vue from "vue";
 
-class Challenge {
-  task!: string
-  description!: string
-  difficulty!: number
-  completed!: boolean
-  i!: number
-}
+import ChalCard from "@/components/ChalCard.vue";
+
+import challenges from "../data/challenges.json";
+
+// class Challenge {
+//   id!: number
+//   title!: string
+//   description!: string
+//   difficulty!: number
+//   completed!: boolean
+//   lastUpdated!: number
+//   score!: number
+// }
 
 export default Vue.extend({
-  data() {}
-})
-</script> -->
-
-<script lang="js">
-export default {
+  name: "Challenges",
+  components: {
+    ChalCard
+  },
   data() {
     return {
-      challenges: [
-        {
-          task: "Win the game!",
-          description:
-            "sdjkfjaskld;fjskjldfl;sdjdfl;sdjflksdjfklasdjflksdjflssdfsadjkfhjksaldhfjkhsdjfhsdjhfksdhfkjshdfjkhskdjfhskdhfkjshdfkshdfkjhsdkfhskfhskdjhfkjsdhfjksdhfkdjfkls kill the boss",
-          difficulty: 3,
-          completed: false,
-          i: 0
-        },
-        {
-          task: "Collect the item",
-          description: "In Chapter 1, complete the quest: Prevent Starvation",
-          difficulty: 3,
-          completed: false,
-          i: 1
-        },
-        {
-          task: "Collect the item",
-          description: "In Chapter 1, complete the quest: Prevent Starvation",
-          difficulty: 3,
-          completed: true,
-          i: 2
-        }
-      ]
+      challenges: challenges
     };
   },
-
   computed: {
-    uncompleted() {
-      return this.challenges.filter(challenge => !challenge.completed);
+    incomplete() {
+      return challenges.filter(it => !it.completed);
     },
-
     completed() {
-      return this.challenges.filter(challenge => challenge.completed);
+      return challenges.filter(it => it.completed);
     }
   }
-};
+});
 </script>
+
+

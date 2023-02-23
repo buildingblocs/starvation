@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/scrollreveal": "^0.0.8",
     "firacode": "^5.2.0",
+    "javascript-time-ago": "^2.5.9",
     "scrollreveal": "^4.0.9",
     "vue": "^2.6.12",
     "vue-animate-onscroll": "^1.0.8",
