@@ -16,6 +16,9 @@
         <template v-slot:item.lastUpdated="{ item }">
           <span>{{ timeAgo.format(item.lastUpdated) }}</span>
         </template>
+        <template v-slot:item.title="{ item }">
+          <a :href="`#/challenges/${item.id}`" style="color:#2A52BE">{{ item.title }}</a>
+        </template>
       </v-data-table>
     </v-card>
     <v-card class="mx-auto pa-4" height="100%" width="360px" >
@@ -99,7 +102,7 @@ export default Vue.extend({
   name: "Profile",
   data: function () {
     return {
-      user: users[0],
+      user: users[1],
       editAbout: false,
       tempAbout: "",
       schools: school_list,
