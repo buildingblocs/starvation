@@ -213,7 +213,7 @@ export default Vue.extend({
       return [
         {
           name: "Home",
-          route: "/",
+          route: "/home",
           icon: "mdi-home-variant",
         },
         {

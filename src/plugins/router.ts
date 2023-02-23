@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter, {RouteConfig} from "vue-router";
 import Main from "@/views/Main.vue";
+import Onboarding from "@/views/Onboarding.vue";
 import {default as Profile} from "@/views/Profile.vue";
 
 Vue.use(VueRouter);
@@ -12,7 +13,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: "/home",
-    component: Main,
+    component: Onboarding,
   },
   {
     path: "/profile",

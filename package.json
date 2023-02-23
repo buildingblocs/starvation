@@ -9,9 +9,13 @@
     "deploy": "sh deploy.sh"
   },
   "dependencies": {
+    "@types/scrollreveal": "^0.0.8",
     "firacode": "^5.2.0",
+    "scrollreveal": "^4.0.9",
     "vue": "^2.6.12",
+    "vue-animate-onscroll": "^1.0.8",
     "vue-router": "^3.5.1",
+    "vue-scroll-reveal": "^1.0.11",
     "vuetify": "^2.5.4",
     "vuex": "^3.6.2"
   },

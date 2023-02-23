@@ -4,6 +4,8 @@ import vuetify from "./plugins/vuetify";
 import router from "./plugins/router";
 import store from "@/plugins/vuex";
 import "@/plugins/highlight";
+import scrollreveal from "./plugins/scrollreveal";
+
 
 Vue.config.productionTip = false;
 
