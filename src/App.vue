@@ -270,6 +270,11 @@ export default Vue.extend({
           name: "Challenges",
           route: "/challenges",
           icon: "mdi-crown"
+        },
+        {
+          name: "Leaderboard",
+          route: "/leaderboard",
+          icon: "mdi-star"
         }
       ];
     },

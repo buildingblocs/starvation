@@ -17,7 +17,7 @@
           <span>{{ timeAgo.format(item.lastUpdated) }}</span>
         </template>
         <template v-slot:item.title="{ item }">
-          <a :href="`#/challenges/${item.id}`" style="color:#2A52BE">{{ item.title }}</a>
+          <a :href="`#/challenges/${item.id}`" style="color:#2A52BE">Mission {{ item.id }} - {{ item.title }}</a>
         </template>
       </v-data-table>
     </v-card>
@@ -36,13 +36,14 @@
       <v-card-title class="justify-center">{{ user.name }}</v-card-title>
 
 
-        <div v-if="!editAbout">
+        <div v-if="!editAbout || $store.state.user.username != $route.params.username">
           <v-card-text>
             {{ user.about  ? user.about : "No About Me Inserted" }}
           </v-card-text>
             <div align="right">
 
             <v-btn small
+                v-if="$store.state.user.username == $route.params.username"
                 append-icon="mdi-magnify"
                 color="primary"
                 style="font-size:10pt;"
