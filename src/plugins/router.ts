@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Main from "@/views/Main.vue";
 import { default as Profile } from "@/views/Profile.vue";
 import Challenges from "@/views/Challenges.vue";
+import users from "../data/users.json";
 
 Vue.use(VueRouter);
 
@@ -16,7 +17,7 @@ const routes: Array<RouteConfig> = [
     component: Main
   },
   {
-    path: "/profile",
+    path: "/users/:username",
     component: Profile
   },
   {

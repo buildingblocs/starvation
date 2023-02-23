@@ -102,7 +102,7 @@ export default Vue.extend({
   name: "Profile",
   data: function () {
     return {
-      user: users[1],
+      user: users.filter(it => it.username == this.$route.params.username)[0],
       editAbout: false,
       tempAbout: "",
       schools: school_list,

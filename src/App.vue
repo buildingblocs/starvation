@@ -1,6 +1,6 @@
 <template>
   <v-app id="app">
-    <v-navigation-drawer v-if="user != null" v-model="drawerShown" temporary app>
+    <v-navigation-drawer v-if="$store.state.user != null" v-model="drawerShown" temporary app>
       <!-- <v-list-item> -->
     <v-img
       width="100%"
@@ -10,11 +10,11 @@
           <div align="left">
             <v-avatar size="80">
               <img
-                :src="user.profilePicture"
+                :src="$store.state.user.profilePicture"
               />
           </v-avatar>
         </div>
-          <v-list-item-title><span style="color: white; font-weight: bold;">{{ user.name }}</span></v-list-item-title>
+          <v-list-item-title><span style="color: white; font-weight: bold;">{{ $store.state.user.name }}</span></v-list-item-title>
         </v-list-item-content>
         </v-img>
       <!-- </v-list-item> -->
@@ -43,8 +43,8 @@
         </router-link>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar v-if="user != null" app color="primary" dark>
-      <v-app-bar-nav-icon v-if="user != null" @click="drawerShown = !drawerShown" />
+    <v-app-bar v-if="$store.state.user != null" app color="primary" dark>
+      <v-app-bar-nav-icon v-if="$store.state.user != null" @click="drawerShown = !drawerShown" />
       <v-toolbar-title>
         Starvation
       </v-toolbar-title>
@@ -56,13 +56,7 @@
       />
       <v-spacer></v-spacer>
 
-      <v-btn elevation="0" color="primary" @click="user = user2" v-if="user == null">
-        Login
-      </v-btn>
-      <v-btn elevation="0" color="primary" @click="user = user2" v-if="user == null">
-        New Account
-      </v-btn>
-      <v-btn elevation="0" color="primary" @click="user = null" v-if="user != null">
+      <v-btn elevation="0" color="primary" @click="$store.state.user = null" v-if="$store.state.user != null">
         Logout
       </v-btn>
     </v-app-bar>
@@ -112,7 +106,7 @@
       </v-container>
     </v-app-bar>
 
-    <v-content v-if="user != null">
+    <v-content v-if="$store.state.user != null">
       <router-view />
     </v-content>
     <v-content v-else :style="{ 'margin-top': height + 'px', minHeight: height + 'px' }">
@@ -162,7 +156,7 @@
                   </v-row>
                 </v-form>
                 <v-row align="center" justify="center" class="my-6">
-                  <v-btn x-large color="primary" @click="user = user2" v-if="user == null">
+                  <v-btn x-large color="primary" @click="login()" v-if="$store.state.user == null">
                     Login
                   </v-btn>
                 </v-row>
@@ -196,7 +190,7 @@
                   </v-row>
                 </v-form>
                 <v-row align="center" justify="center" class="my-6">
-                  <v-btn x-large color="primary" @click="user = user2" v-if="user == null">
+                  <v-btn x-large color="primary" @click="login()" v-if="$store.state.user == null">
                     Register
                   </v-btn>
                 </v-row>
@@ -211,12 +205,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Vuex from "vuex";
 import store from "@/plugins/vuex";
 import users from "./data/users.json";
-
-Vue.use(Vuex);
-
 
 export default Vue.extend({
   name: "App",
@@ -233,9 +223,7 @@ export default Vue.extend({
     showPassword: false,
     hideSubtitle: false,
     imgIsLoaded: false,
-    tab: null,
-    user: null,
-    user2: users[1]
+    tab: null
   }),
   methods: {
     onScroll() {
@@ -252,6 +240,12 @@ export default Vue.extend({
     },
     imgLoaded() {
       this.imgIsLoaded = true;
+    },
+    login() {
+      const res = users.filter(it => it.username == this.username && it.password == this.password);
+      if(res.length > 0) {
+        this.$store.state.user = res[0];
+      }
     }
   },
   computed: {
@@ -269,7 +263,7 @@ export default Vue.extend({
         },
         {
           name: "Profile",
-          route: "/profile",
+          route: `/users/${(this.$store.state.user || {username: ""}).username}`,
           icon: "mdi-account"
         },
         {

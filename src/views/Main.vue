@@ -1,16 +1,6 @@
 <template>
   <v-flex>
   <v-container fluid>
-<!--    <v-card>-->
-<!--      <v-card-title>-->
-<!--        <div>-->
-<!--          <highlightjs language='kotlin' code="fun hello&lt;T&gt;(world: () -> T) = 'hello ${world}'" />-->
-<!--          <pre><code class="kotlin"></code></pre>-->
-<!--        </div>-->
-<!--        <v-spacer/>-->
-<!--      </v-card-title>-->
-<!--    </v-card>-->
-
     <v-card>
       <v-card-title class="pa-8" style="word-break: normal;">
         {{ content }}
