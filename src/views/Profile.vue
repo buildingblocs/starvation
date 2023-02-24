@@ -103,7 +103,6 @@ export default Vue.extend({
   name: "Profile",
   data: function () {
     return {
-      user: users.filter(it => it.username == this.$route.params.username)[0],
       editAbout: false,
       tempAbout: "",
       schools: school_list,
@@ -138,6 +137,11 @@ export default Vue.extend({
             content = content.replace(/<\S[^><]*>/gi, "");
             return content.match(/\w+/g) ? (content.match(/\w+/g) || "").length : 0;
         },
+  },
+  computed: {
+    user() {
+      return users.filter(it => it.username == this.$route.params.username)[0];
+    }
   }
 });
 

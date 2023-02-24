@@ -56,7 +56,7 @@
       />
       <v-spacer></v-spacer>
 
-      <v-btn elevation="0" color="primary" @click="$store.state.user = null" v-if="$store.state.user != null">
+      <v-btn elevation="0" color="primary" @click="logout()" v-if="$store.state.user != null">
         Logout
       </v-btn>
     </v-app-bar>
@@ -245,8 +245,30 @@ export default Vue.extend({
       const res = users.filter(it => it.username == this.username && it.password == this.password);
       if(res.length > 0) {
         this.$store.state.user = res[0];
+        document.cookie = `username=${this.username};expires=Fri, 31 Dec 2100 12:00:00 UTC`;
+        document.cookie = `password=${this.password};expires=Fri, 31 Dec 2100 12:00:00 UTC`;
       }
-    }
+    },
+      getCookie(cname: string) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(";");
+        for(let i = 0; i <ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == " ") {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      },
+      logout() {
+        document.cookie = "username=;expires=Fri, 31 Dec 2100 12:00:00 UTC";
+        document.cookie = "password=;expires=Fri, 31 Dec 2100 12:00:00 UTC";
+        this.$store.state.user = null;
+      }
   },
   computed: {
     routes(): Array<{
@@ -287,6 +309,13 @@ export default Vue.extend({
   },
   mounted() {
     window.addEventListener("scroll", this.onScroll);
+
+    if(this.getCookie("username") != "" && this.getCookie("password")) {
+      this.username = this.getCookie("username");
+      this.password = this.getCookie("password");
+      this.login();
+    }
+
   }
 });
 </script>
