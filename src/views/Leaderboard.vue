@@ -12,7 +12,15 @@
       :footer-props="{showFirstLastPage: true, firstIcon: 'mdi-arrow-collapse-left', lastIcon: 'mdi-arrow-collapse-right'}"
       >
         <template v-slot:item.name="{ item }">
+          <v-avatar :size="30" style="margin-right: 10pt;">
+            <img
+                :src="item.pfp"
+              />
+          </v-avatar>
           <a :href="`#/users/${item.username}`" style="color:#2A52BE">{{ item.name }}</a>
+        </template>
+        <template v-slot:item.rank="{ item }">
+          {{ item.rank }}
         </template>
       </v-data-table>
 
@@ -31,10 +39,11 @@ export default Vue.extend({
   data() {
     return {
       users: users.map((it, index) => ({
-        rank: index,
+        rank: index == 0 ? "🥇" : index == 1 ? "🥈" : index == 2 ? "🥉" : index+1,
         name: it.name,
         username: it.username,
-        score: 300
+        score: 300 - 20*index,
+        pfp: it.profilePicture
       })),
       headers: [
           {text: "Rank", value: "rank"},

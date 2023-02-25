@@ -4,13 +4,13 @@
   <v-card-title class="text--primary">Open Challenges</v-card-title>
     <v-layout wrap justify-space-around>
         <v-flex v-for="challenge in incomplete" :key="challenge.id" style="flex-grow: 0; padding-bottom: 40px;">
-          <ChalCard :challenge="challenge"></ChalCard>
+          <ChallengeCard :challenge="challenge"></ChallengeCard>
         </v-flex>
     </v-layout>
   <v-card-title class="text--primary">Past Challenges</v-card-title>
     <v-layout wrap justify-space-around>
         <v-flex v-for="challenge in completed" :key="challenge.id" style="flex-grow: 0; padding-bottom: 40px;">
-          <ChalCard :challenge="challenge"></ChalCard>
+          <ChallengeCard :challenge="challenge"></ChallengeCard>
         </v-flex>
     </v-layout>
 </v-container>
@@ -20,7 +20,7 @@
 <script lang="ts">
 import Vue from "vue";
 
-import ChalCard from "@/components/ChalCard.vue";
+import ChallengeCard from "@/components/ChallengeCard.vue";
 
 import challenges from "../data/challenges.json";
 
@@ -37,7 +37,7 @@ import challenges from "../data/challenges.json";
 export default Vue.extend({
   name: "Challenges",
   components: {
-    ChalCard
+    ChallengeCard
   },
   data() {
     return {

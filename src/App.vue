@@ -296,7 +296,7 @@ export default Vue.extend({
         {
           name: "Leaderboard",
           route: "/leaderboard",
-          icon: "mdi-star"
+          icon: "mdi-trophy-variant"
         }
       ];
     },

@@ -110,7 +110,7 @@ export default Vue.extend({
       headers: [
         {text: "Challenge", value: "title"},
         {text: "Score", value: "score"},
-        {text: "Last Updated", value: "lastUpdated"}],
+        {text: "Last Solved", value: "lastUpdated"}],
       challenges:  challenges.filter(it => it.completed)
       // [
       //   {
