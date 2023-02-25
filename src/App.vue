@@ -198,6 +198,28 @@
             </v-tabs-items>
           </v-col>
         </v-row>
+        <v-dialog
+          v-model="showLoginError"
+          persistent
+          :width="500"
+        >
+          <v-card>
+            <v-card-title class="text-h4">
+              Login Error
+            </v-card-title>
+            <v-card-text class="text-body-1">Either your username or password is incorrect.</v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary"
+                variant="text"
+                @click="showLoginError = false"
+              >
+                Ok
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-container>
     </v-content>
   </v-app>
@@ -205,7 +227,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-import store from "@/plugins/vuex";
 import users from "./data/users.json";
 
 export default Vue.extend({
@@ -223,6 +244,7 @@ export default Vue.extend({
     showPassword: false,
     hideSubtitle: false,
     imgIsLoaded: false,
+    showLoginError: false,
     tab: null
   }),
   methods: {
@@ -243,10 +265,12 @@ export default Vue.extend({
     },
     login() {
       const res = users.filter(it => it.username == this.username && it.password == this.password);
-      if(res.length > 0) {
+      if (res.length > 0) {
         this.$store.state.user = res[0];
         document.cookie = `username=${this.username};expires=Fri, 31 Dec 2100 12:00:00 UTC`;
         document.cookie = `password=${this.password};expires=Fri, 31 Dec 2100 12:00:00 UTC`;
+      } else {
+        this.showLoginError = true;
       }
     },
       getCookie(cname: string) {
@@ -310,12 +334,11 @@ export default Vue.extend({
   mounted() {
     window.addEventListener("scroll", this.onScroll);
 
-    if(this.getCookie("username") != "" && this.getCookie("password")) {
+    if (this.getCookie("username") != "" && this.getCookie("password")) {
       this.username = this.getCookie("username");
       this.password = this.getCookie("password");
       this.login();
     }
-
   }
 });
 </script>
