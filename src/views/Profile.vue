@@ -34,8 +34,6 @@
         </v-avatar>
       </div>
       <v-card-title class="justify-center">{{ user.name }}</v-card-title>
-
-
         <div v-if="!editAbout || $store.state.user.username != $route.params.username">
           <v-card-text>
             {{ user.about  ? user.about : "No About Me Inserted" }}
@@ -70,7 +68,7 @@
                   prepend-icon="mdi-magnify"
                   color="primary"
                   style="font-size:10pt;"
-                  @click="user.about = tempAbout; editAbout = false"
+                  @click="user.about = tempAbout; editAbout = false; updateAbout()"
               >
                   Save
               </v-btn>
@@ -79,8 +77,10 @@
 
       <v-combobox
         label="School"
+        v-model="user.school"
         :items=schools
-        :item-value=user.school
+        :disabled="user.school.length !== 0"
+        @change="updateSchool()"
       ></v-combobox>
     </v-card>
     </v-layout>
@@ -132,16 +132,41 @@ export default Vue.extend({
     };
   },
   methods: {
-        wordCount(text: string): number {
-            var content = text;
-            content = content.replace(/<\S[^><]*>/gi, "");
-            return content.match(/\w+/g) ? (content.match(/\w+/g) || "").length : 0;
-        },
+    wordCount(text: string): number {
+      let content = text;
+      content = content.replace(/<\S[^><]*>/gi, "");
+      return content.match(/\w+/g) ? (content.match(/\w+/g) || "").length : 0;
+    },
+    getCookie(cname: string) {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(";");
+      for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    },
+    updateSchool() {
+      document.cookie="school="+this.user.school+";expires=Fri, 31 Dec 2100 12:00:00 UTC";
+    },
+    updateAbout() {
+      document.cookie="about="+this.user.about+";expires=Fri, 31 Dec 2100 12:00:00 UTC";
+    }
   },
   computed: {
     user() {
       return users.filter(it => it.username == this.$route.params.username)[0];
     }
+  },
+  mounted() {
+    this.user.school = this.getCookie("school");
+    this.user.about = this.getCookie("about");
   }
 });
 
