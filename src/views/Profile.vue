@@ -79,7 +79,7 @@
         label="School"
         v-model="user.school"
         :items=schools
-        :disabled="user.school.length !== 0"
+        :disabled="user.school.length !== 0 || this.user.username !== this.$store.state.user.username"
         @change="updateSchool()"
       ></v-combobox>
     </v-card>
