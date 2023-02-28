@@ -1,20 +1,28 @@
 <template>
-<v-flex>
-  <v-container fluid>
-  <v-card-title class="text--primary">Open Challenges</v-card-title>
-    <v-layout wrap justify-space-around>
-        <v-flex v-for="challenge in incomplete" :key="challenge.id" style="flex-grow: 0; padding-bottom: 40px;">
+  <v-flex>
+    <v-container fluid>
+      <v-card-title class="text--primary">Open Challenges</v-card-title>
+      <v-layout wrap justify-space-around>
+        <v-flex
+          v-for="challenge in incomplete"
+          :key="challenge.id"
+          style="flex-grow: 0; padding-bottom: 40px;"
+        >
           <ChallengeCard :challenge="challenge"></ChallengeCard>
         </v-flex>
-    </v-layout>
-  <v-card-title class="text--primary">Past Challenges</v-card-title>
-    <v-layout wrap justify-space-around>
-        <v-flex v-for="challenge in completed" :key="challenge.id" style="flex-grow: 0; padding-bottom: 40px;">
+      </v-layout>
+      <v-card-title class="text--primary">Past Challenges</v-card-title>
+      <v-layout wrap justify-space-around>
+        <v-flex
+          v-for="challenge in completed"
+          :key="challenge.id"
+          style="flex-grow: 0; padding-bottom: 40px;"
+        >
           <ChallengeCard :challenge="challenge"></ChallengeCard>
         </v-flex>
-    </v-layout>
-</v-container>
-</v-flex>
+      </v-layout>
+    </v-container>
+  </v-flex>
 </template>
 
 <script lang="ts">
@@ -54,5 +62,3 @@ export default Vue.extend({
   }
 });
 </script>
-
-
