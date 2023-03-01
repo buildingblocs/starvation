@@ -11,6 +11,7 @@
       <v-spacer />
     </v-card>
   </v-container>
+  <ChartComponent/>
   </v-flex>
 </template>
 
