@@ -10,23 +10,33 @@
       </div>
       <v-spacer />
     </v-card>
-  </v-container>
+  <br>
+  
   <ChartComponent/>
+  </v-container>
+  
   </v-flex>
+
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import {getRandomQuotableQuote} from "@/api/api";
-
+import ChartComponent from "./ChartComponent.vue"
 export default Vue.extend({
   name: "Home",
+  
+  components: {
+    ChartComponent
+  },
+
   data: function () {
     return {
       content: "",
       author: ""
     };
   },
+  
   async mounted() {
     const quote = await getRandomQuotableQuote();
     this.content = quote.content;
