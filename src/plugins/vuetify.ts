@@ -9,6 +9,7 @@ Vue.use(Vuetify, {
 
 const vuetify = new Vuetify({
   theme: {
+    dark: true,
     themes: {
       light: {
         primary: "#ff9900",
@@ -27,6 +28,7 @@ const vuetify = new Vuetify({
       }
     },
   },
-})
+});
+
 
 export default vuetify;
