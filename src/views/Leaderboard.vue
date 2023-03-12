@@ -33,7 +33,6 @@
 <script lang="ts">
 import Vue from "vue";
 import users from "../data/users.json";
-import store from "@/plugins/vuex";
 
 export default Vue.extend({
   name: "Leaderboard",
