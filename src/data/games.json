@@ -1,0 +1,51 @@
+[
+    {
+        "title": "Learning the Game - The Basics",
+        "description": "Mario hates Luigi, and wants to attack him. He will send a clone of himself every few seconds but he needs your help training them. With the distributePoints function, help him decide how to train each Mario clone",
+        "prepend": "",
+        "append": "def decideAction(self):\n    attackable = enemiesWithinRange(self)\n    if (len(attackable) != 0): attack(self, attackable[0])\n    else: self.move(1)",
+        "template": "def distributePoints(skill_points):\n    health = 0\n    damage = 0\n    range = 0\n    speed = 0\n    return [health, damage, range, speed]\n\n"
+    },
+    {
+        "title": "Learning the Game - enemiesWithinRange, decideAction",
+        "description": "Now, Mario is super lazy. He wants you to help him command his clone army. With the decideAction and enemiesWithinRange function, help him command his clones.",
+        "prepend": "from gameAPI import enemiesWithinRange",
+        "append": "",
+        "template": "def distributePoints(skill_points):\n    health = 0\n    damage = 0\n    range = 0\n    speed = 0\n    return [health, damage, range, speed]\n\ndef decideAction(self):\n    enemies = enemiesWithinRange(self) # As an array\n    #self.attack(-1)\n    #self.move(1)"
+    },
+    {
+        "title": "Luigi Fights Back",
+        "description": "Luigi has had enough of Mario, he will be launching his own clone army at Mario. Help Mario win!",
+        "prepend": "from gameAPI import enemiesWithinRange",
+        "append": "",
+        "template": "def distributePoints(skill_points):\n    health = 0\n    damage = 0\n    range = 0\n    speed = 0\n    return [health, damage, range, speed]\n\ndef decideAction(self):\n    enemies = enemiesWithinRange(self) # As an array\n    #self.attack(-1)\n    #self.move(1)"
+    },
+    {
+        "title": "Gathering the Army",
+        "description": "Luigi is getting smarter, he is sending groups of his clones at once. With the getFriendlyTroops and distanceToEntity function, help Mario win!",
+        "prepend": "from gameAPI import enemiesWithinRange, getFriendlyTroops, distanceToEntity",
+        "append": "",
+        "template": "def distributePoints(skill_points):\n    health = 0\n    damage = 0\n    range = 0\n    speed = 0\n    return [health, damage, range, speed]\n\ndef decideAction(self):\n    enemies = enemiesWithinRange(self)\n    friendlies = getFriendlyTroops(self)\n    distanceToBase = distanceToEntity(self, 1)\n    distanceToFirst = distanceToEntity(self, friendlies[0])\n    #self.attack(-1)\n    #self.move(1)"
+    },
+    {
+        "title": "Gathering the Army (Hard Version)",
+        "description": "Luigi is getting smarter, he is sending groups of his clones at once. However, Mario isn't, removing access to the getFriendlyTroops and distanceToEntity function. Help Mario win!",
+        "prepend": "from gameAPI import enemiesWithinRange",
+        "append": "",
+        "template": "def distributePoints(skill_points):\n    health = 0\n    damage = 0\n    range = 0\n    speed = 0\n    return [health, damage, range, speed]\n\ndef decideAction(self):\n    #self.attack(-1)\n    #self.move(1)"
+    },
+    {
+        "title": "Defend the Snipers",
+        "description": "Luigi is preparing a bunch of long range snipers to target his base. Mario is not going to take this lying down. Help him win!",
+        "prepend": "from gameAPI import enemiesWithinRange, getFriendlyTroops, distanceToEntity",
+        "append": "",
+        "template": "def distributePoints(skill_points):\n    health = 0\n    damage = 0\n    range = 0\n    speed = 0\n    return [health, damage, range, speed]\n\ndef decideAction(self):\n    #self.attack(-1)\n    #self.move(1)"
+    },
+    {
+        "title": "Defend the Snipers (Hard Version)",
+        "description": "After losing to Mario, Luigi changes his long range snipers to target the Mario clones first. Help Mario win!",
+        "prepend": "from gameAPI import enemiesWithinRange, getFriendlyTroops, distanceToEntity",
+        "append": "",
+        "template": "def distributePoints(skill_points):\n    health = 0\n    damage = 0\n    range = 0\n    speed = 0\n    return [health, damage, range, speed]\n\ndef decideAction(self):\n    #self.attack(-1)\n    #self.move(1)"
+    }
+]

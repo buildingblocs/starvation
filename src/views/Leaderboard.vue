@@ -33,20 +33,14 @@
 <script lang="ts">
 import Vue from "vue";
 import users from "../data/users.json";
+import {getPlayers} from "@/api/api";
+import {Player} from "@/types/players";
 
 export default Vue.extend({
   name: "Leaderboard",
   data() {
     return {
-      users: users.sort((a, b) => {
-        return a.score === b.score ? a.name.localeCompare(b.name) : (b.score ?? 0) - (a.score ?? 0);
-      }).map((it, index) => ({
-        rank: index == 0 ? "🥇" : index == 1 ? "🥈" : index == 2 ? "🥉" : index+1,
-        name: it.name,
-        username: it.username,
-        score: it.score,
-        pfp: it.profilePicture
-      })),
+      users: Array<any>(),
       headers: [
         { text: "Rank", value: "rank" },
         { text: "Name", value: "name" },
@@ -63,7 +57,17 @@ export default Vue.extend({
       return s.join(" ");
     }
   },
-  mounted() {
+  async mounted() {
+    this.users = (await getPlayers()).sort((a, b) => {
+        return a.score === b.score ? a.fullname.localeCompare(b.fullname) : (b.score ?? 0) - (a.score ?? 0);
+      }).map((it, index) => ({
+        rank: index == 0 ? "🥇" : index == 1 ? "🥈" : index == 2 ? "🥉" : index+1,
+        name: it.fullname,
+        username: it.id,
+        score: it.score,
+        pfp: `data:image/png;base64,${it.pfp}`
+        // pfp: it.profilePicture
+      }));
     console.log(this.users);
   }
 });

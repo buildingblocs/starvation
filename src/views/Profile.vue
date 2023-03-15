@@ -23,17 +23,21 @@
     </v-card>
     <v-card class="mx-auto pa-4" height="100%" width="360px" >
       <div align="center">
-        <v-avatar size="200px" class="justify-center">
-          <v-img
-            :aspect-ratio="1"
-            :width="250"
-            :src="user.profilePicture"
-            class="justify-center"
-            cover
-          ></v-img>
-        </v-avatar>
+        <image-input v-model="avatar">
+          <div slot="activator">
+            <v-avatar ripple size="200px" class="justify-center">
+              <v-img
+                :aspect-ratio="1"
+                :width="250"
+                :src="`data:image/png;base64,${user.pfp}`"
+                class="justify-center"
+                cover
+              ></v-img>
+            </v-avatar>
+          </div>
+        </image-input>
       </div>
-      <v-card-title class="justify-center">{{ user.name }}</v-card-title>
+      <v-card-title class="justify-center">{{ user.fullname }}</v-card-title>
         <div v-if="!editAbout || $store.state.user.username != $route.params.username">
           <v-card-text>
             {{ user.about  ? user.about : "No About Me Inserted" }}
@@ -79,7 +83,7 @@
         label="School"
         v-model="user.school"
         :items=schools
-        :disabled="user.school.length !== 0 || this.user.username !== this.$store.state.user.username"
+        :disabled="user.school.length !== 0 || user.username !== this.$store.state.user.username"
         @change="updateSchool()"
       ></v-combobox>
     </v-card>
@@ -99,10 +103,25 @@ import users from "../data/users.json";
 
 import { timeAgo } from "@/util/datetime";
 
+import { getPlayers } from "@/api/api";
+
+import { Player } from "@/types/players";
+
+import ImageInput from "@/components/ImageInput.vue";
+
 export default Vue.extend({
   name: "Profile",
+  components: {
+    ImageInput: ImageInput
+  },
+
   data: function () {
     return {
+      users: Array<Player>(),
+      user: {
+        id: "", fullname: "", score: 0, num_games: 0, about: "", school: "", pfp: ""
+      },
+      saved: true,
       editAbout: false,
       tempAbout: "",
       schools: school_list,
@@ -130,6 +149,14 @@ export default Vue.extend({
       //   },
       // ]//.map((item) => { item.time = timeAgo.format(item.at); })
     };
+  },
+  watch:{
+    avatar: {
+      handler: function() {
+        this.saved = false;
+      },
+      deep: true
+    }
   },
   methods: {
     wordCount(text: string): number {
@@ -159,14 +186,10 @@ export default Vue.extend({
       document.cookie="about="+this.user.about+";expires=Fri, 31 Dec 2100 12:00:00 UTC";
     }
   },
-  computed: {
-    user() {
-      return users.filter(it => it.username == this.$route.params.username)[0];
-    }
-  },
-  mounted() {
-    this.user.school = this.getCookie("school");
-    this.user.about = this.getCookie("about");
+  async mounted() {
+    this.user = (await getPlayers()).filter(it => it.username == this.$route.params.username)[0];
+    this.updateSchool();
+    this.updateAbout();
   }
 });
 
