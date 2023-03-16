@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto pa-4" width="300px" height="100%">
+  <v-card class="mx-auto pa-4" width="400px" height="100%">
     <v-flex class="text-overline">
       <div class="mx-4 d-flex" color="text--secondary">Mission {{ challenge.id }}</div>
     </v-flex>

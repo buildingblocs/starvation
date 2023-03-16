@@ -62,8 +62,8 @@ export default Vue.extend({
         return a.score === b.score ? a.fullname.localeCompare(b.fullname) : (b.score ?? 0) - (a.score ?? 0);
       }).map((it, index) => ({
         rank: index == 0 ? "🥇" : index == 1 ? "🥈" : index == 2 ? "🥉" : index+1,
-        name: it.fullname,
-        username: it.id,
+        name: it.username,
+        username: it.username,
         score: it.score,
         pfp: `data:image/png;base64,${it.pfp}`
         // pfp: it.profilePicture

@@ -28,11 +28,15 @@ function blobToBase64(blob: any): Promise<string> {
     reader.onloadend = () => {
       const res = reader.result;
       if(typeof res === "string") {
-        resolve(res.substring(22));
+        resolve(res); ///.substring(22)
       } else resolve("");
     };
     reader.readAsDataURL(blob);
   });
+}
+
+export async function deleteAccount(email: string) {
+  await axios.post("/deleteUser", { id: email });
 }
 
 

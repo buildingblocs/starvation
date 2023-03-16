@@ -11,6 +11,6 @@ module.exports = {
       .loader("ts-loader");
   },
   devServer: {
-    proxy: "https://starvation-api.buildingblocs.sg/"
+    proxy: "http://starvation-api.buildingblocs.sg/"
   }
 };

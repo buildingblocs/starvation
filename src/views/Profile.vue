@@ -23,7 +23,7 @@
     </v-card>
     <v-card class="mx-auto pa-4" height="100%" width="360px" >
       <div align="center">
-        <image-input v-model="avatar">
+        <image-input v-model="avatar" :enabled="$store.state.user.username == $route.params.username">
           <div slot="activator">
             <v-avatar v-ripple size="200px" class="justify-center">
               <v-img
@@ -83,9 +83,12 @@
         label="School"
         v-model="user.school"
         :items=schools
-        :disabled="user.school.length !== 0 || user.username !== this.$store.state.user.username"
+        :disabled="user.school.length !== 0 || user.username != $store.state.user.username"
         @change="updateSchool()"
       ></v-combobox>
+
+      <v-btn block outlined color="error" @click="deleteUser()"
+        v-if="$store.state.user.username == $route.params.username">Delete Account</v-btn>
     </v-card>
     </v-layout>
   </v-container>
@@ -108,7 +111,7 @@ import { getPlayers } from "@/api/api";
 
 import { Player } from "@/types/players";
 
-import { updateDetails } from "@/api/api";
+import { updateDetails, deleteAccount } from "@/api/api";
 
 import ImageInput from "@/components/ImageInput.vue";
 
@@ -163,6 +166,7 @@ export default Vue.extend({
         if(this.avatar !== null) this.user.pfp = this.avatar.image;
         console.log(this.user);
         updateDetails(this.user);
+        this.$store.state.user.pfp = this.avatar.image;
       },
       deep: true
     }
@@ -190,9 +194,16 @@ export default Vue.extend({
     },
     updateSchool() {
       document.cookie="school="+this.user.school+";expires=Fri, 31 Dec 2100 12:00:00 UTC";
+      updateDetails(this.user);
+
     },
     updateAbout() {
       document.cookie="about="+this.user.about+";expires=Fri, 31 Dec 2100 12:00:00 UTC";
+      updateDetails(this.user);
+    },
+    deleteUser() {
+      deleteAccount(this.user.id);
+      this.$store.state.user = null;
     }
   },
   async mounted() {

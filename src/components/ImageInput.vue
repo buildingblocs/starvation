@@ -36,10 +36,11 @@
     props: {
     // Use "value" to enable using v-model
       value: Object,
+      enabled: Boolean
     },
     methods: {
       launchFilePicker(){
-        this.$refs.file.click();
+        if(this.enabled) this.$refs.file.click();
       },
       onFileChange(fieldName, file) {
         const { maxSize } = this;

@@ -38,7 +38,7 @@
 
       <v-col>
         <v-menu>
-          <template v-slot:activator="{ props }">
+          <template>
             <CodeEditorVue
               :language_selector="false"
               :languages="[['python', 'Python']]"
@@ -46,12 +46,6 @@
               v-model="code"
               width="auto"
             ></CodeEditorVue>
-            <v-btn v-bind="props" @click="run">
-              Run
-            </v-btn>
-            <v-btn v-bind="props" @click="save">
-              Save
-            </v-btn>
           </template>
         </v-menu>
       </v-col>
@@ -114,7 +108,7 @@
 
 <script>
 import CodeEditorVue from "simple-code-editor";
-import challenges from "../data/challenges.json";
+import challenges from "../data/games.json";
 import attempts from "../data/attempts.json";
 import sprites from "../data/sprites.json";
 import results from "../data/results.json";
@@ -149,6 +143,10 @@ export default {
     selectedTask() {
       return challenges.find(challenge => challenge.id === this.id);
     }
+  },
+
+  mounted() {
+    this.code = this.selectedTask.template;
   },
 
   methods: {

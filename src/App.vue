@@ -10,11 +10,11 @@
           <div align="left">
             <v-avatar size="80">
               <img
-                :src="$store.state.user.profilePicture"
+                :src="`data:image/png;base64,${$store.state.user.pfp}`"
               />
           </v-avatar>
         </div>
-          <v-list-item-title><span style="color: white; font-weight: bold;">{{ $store.state.user.name }}</span></v-list-item-title>
+          <v-list-item-title><span style="color: white; font-weight: bold;">{{ $store.state.user.fullname }}</span></v-list-item-title>
         </v-list-item-content>
         </v-img>
       <!-- </v-list-item> -->
@@ -266,8 +266,8 @@ export default Vue.extend({
       console.log(jwtCredentials);
       const profileData = JSON.parse( atob(jwtCredentials.split(".")[1]) );
       console.table(profileData);
-      let pfp = (await getBase64(profileData.picture));
-      createUser(profileData.email, profileData.name, profileData.given_name, pfp);
+      let pfp = (getBase64(profileData.picture));
+      createUser(profileData.email, profileData.name, profileData.given_name, await pfp);
       this.$store.state.user = {
         id: profileData.email,
         fullname: profileData.name,
