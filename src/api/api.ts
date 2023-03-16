@@ -52,10 +52,10 @@ export async function createUser(email: string, name: string, given_name: string
     about = data["about"]
  */
 
-export async function getResults(code: string, level: number): Promise<any> {
+export async function getResults(code: string, level: number, id: string): Promise<any> {
   let results: any = [];
   await getAPI().post("/sendCodeAI",
-  { code, level })
+  { code, level, id })
   .then(res => {
     results = res.data.output;
     console.log(results);

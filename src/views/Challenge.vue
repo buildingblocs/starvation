@@ -159,7 +159,7 @@ export default {
   methods: {
     async run() {
       console.log(this.code);
-      this.results = await getResults(this.selectedTask.prepend+ "\n" + this.code + "\n" + this.selectedTask.append, this.$route.params.id);
+      this.results = await getResults(this.selectedTask.prepend+ "\n" + this.code + "\n" + this.selectedTask.append, this.$route.params.id, this.$store.state.user.id);
       console.log(this.results);
       clearInterval(this.animId);
       this.animId = setInterval(this.update, 10);
