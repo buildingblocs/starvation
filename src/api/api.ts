@@ -34,3 +34,8 @@ export async function getResults(code: string): Promise<any> {
   });
   return results;
 }
+
+export async function updateDetails(playerDetails: Player) {
+  console.log("calling updateDetails");
+  await axios.post("/updateDetails", playerDetails);
+}

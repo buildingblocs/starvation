@@ -25,7 +25,7 @@
       <div align="center">
         <image-input v-model="avatar">
           <div slot="activator">
-            <v-avatar ripple size="200px" class="justify-center">
+            <v-avatar v-ripple size="200px" class="justify-center">
               <v-img
                 :aspect-ratio="1"
                 :width="250"
@@ -38,12 +38,12 @@
         </image-input>
       </div>
       <v-card-title class="justify-center">{{ user.fullname }}</v-card-title>
+      <v-card-subtitle class="justify-center">@{{ user.username }}</v-card-subtitle>
         <div v-if="!editAbout || $store.state.user.username != $route.params.username">
           <v-card-text>
             {{ user.about  ? user.about : "No About Me Inserted" }}
           </v-card-text>
-            <div align="right">
-
+          <div align="right">
             <v-btn small
                 v-if="$store.state.user.username == $route.params.username"
                 append-icon="mdi-magnify"
@@ -100,12 +100,15 @@ import school_list from "../data/schools.json";
 import challenges from "../data/challenges.json";
 
 import users from "../data/users.json";
+import games from "../games/games.json";
 
 import { timeAgo } from "@/util/datetime";
 
 import { getPlayers } from "@/api/api";
 
 import { Player } from "@/types/players";
+
+import { updateDetails } from "@/api/api";
 
 import ImageInput from "@/components/ImageInput.vue";
 
@@ -119,8 +122,11 @@ export default Vue.extend({
     return {
       users: Array<Player>(),
       user: {
-        id: "", fullname: "", score: 0, num_games: 0, about: "", school: "", pfp: ""
+        id: "", fullname: "", score: 0,
+        num_games: 0, about: "", school: "",
+        pfp: "", username: ""
       },
+      avatar: null,
       saved: true,
       editAbout: false,
       tempAbout: "",
@@ -153,7 +159,10 @@ export default Vue.extend({
   watch:{
     avatar: {
       handler: function() {
-        this.saved = false;
+        // url in this.avatar.image
+        if(this.avatar != null) this.user.pfp = this.avatar.image;
+        console.log(this.user);
+        updateDetails(this.user);
       },
       deep: true
     }
