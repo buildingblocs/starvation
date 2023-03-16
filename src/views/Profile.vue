@@ -32,6 +32,7 @@
                 :src="`data:image/png;base64,${user.pfp}`"
                 class="justify-center"
                 cover
+                alt="Click to select avatar"
               ></v-img>
             </v-avatar>
           </div>
