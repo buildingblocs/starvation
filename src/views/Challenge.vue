@@ -38,7 +38,7 @@
 
       <v-col>
         <v-menu>
-          <template>
+          <template v-slot:activator="{ props }">
             <CodeEditorVue
               :language_selector="false"
               :languages="[['python', 'Python']]"
@@ -46,6 +46,12 @@
               v-model="code"
               width="auto"
             ></CodeEditorVue>
+            <v-btn v-bind="props" @click="run">
+              Run
+            </v-btn>
+            <v-btn v-bind="props" @click="save">
+              Save
+            </v-btn>
           </template>
         </v-menu>
       </v-col>
