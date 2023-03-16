@@ -126,7 +126,7 @@ export default Vue.extend({
         num_games: 0, about: "", school: "",
         pfp: "", username: ""
       },
-      avatar: null,
+      avatar: {image : ""},
       saved: true,
       editAbout: false,
       tempAbout: "",
@@ -160,7 +160,7 @@ export default Vue.extend({
     avatar: {
       handler: function() {
         // url in this.avatar.image
-        if(this.avatar != null) this.user.pfp = this.avatar.image;
+        if(this.avatar !== null) this.user.pfp = this.avatar.image;
         console.log(this.user);
         updateDetails(this.user);
       },
@@ -199,6 +199,7 @@ export default Vue.extend({
     this.user = (await getPlayers()).filter(it => it.username == this.$route.params.username)[0];
     this.updateSchool();
     this.updateAbout();
+    this.avatar.image = this.user.pfp;
   }
 });
 
