@@ -4,7 +4,7 @@
       <v-card-title class="text--primary">Open Challenges</v-card-title>
       <v-layout wrap justify-space-around>
         <v-flex
-          v-for="challenge in incomplete"
+          v-for="challenge in challenges"
           :key="challenge.id"
           style="flex-grow: 0; padding-bottom: 20px;"
         >
@@ -19,8 +19,6 @@
 import Vue from "vue";
 
 import ChallengeCard from "@/components/ChallengeCard.vue";
-
-import challenges from "../data/challenges.json";
 import games from "../data/games.json";
 
 export default Vue.extend({
@@ -32,14 +30,6 @@ export default Vue.extend({
     return {
       challenges: games
     };
-  },
-  computed: {
-    incomplete() {
-      return this.challenges;
-    },
-    completed() {
-      return challenges.filter(it => it.completed);
-    }
   }
 });
 </script>
