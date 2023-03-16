@@ -131,10 +131,8 @@ export default {
       editorMinHeight: 10,
       id: +this.$route.params.id,
       challenge: challenges,
-      attempts: attempts.find(attempt => attempt.id === this.id),
-      error: `in line 6, error`,
       fab: false,
-      code: (attempts.find(attempt => attempt.id === this.$route.params.id) || {code: ""}).code,
+      code: "",
       sprites: sprites,
       homeHealth: 250,
       oppHealth: 250,
@@ -147,7 +145,7 @@ export default {
 
   computed: {
     selectedTask() {
-      return challenges.find(challenge => challenge.id === this.id);
+      return challenges.find(challenge => challenge.id === this.$route.params.id);
     }
   },
 
@@ -158,7 +156,7 @@ export default {
   methods: {
     async run() {
       console.log(this.code);
-      this.results = await getResults(this.code, this.$route.params.id);
+      this.results = await getResults(this.selectedTask.prepend+ "\n" + this.code + "\n" + this.selectedTask.append, this.$route.params.id);
       console.log(this.results);
       clearInterval(this.animId);
       this.animId = setInterval(this.update, 10);

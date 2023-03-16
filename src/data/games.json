@@ -57,8 +57,16 @@
     },
     {
         "id": 8,
-        "title": "Shielding",
-        "description": "Luigi started specialising his army! Now there are troops in front of the damage dealers to soak up all the damage. Help Mario destroy this army!",
+        "title": "Glass Cannons",
+        "description": "Luigi is making some glass cannons. Show Luigi why glass cannons are fragile!",
+        "prepend": "from gameAPI import enemiesWithinRange, getFriendlyTroops, distanceToEntity",
+        "append": "",
+        "template": "def distributePoints(skill_points):\n    health = 0\n    damage = 0\n    range = 0\n    speed = 0\n    return [health, damage, range, speed]\n\ndef decideAction(self):\n    #self.attack(-1)\n    #self.move(1)"
+    },
+    {
+        "id": 9,
+        "title": "Sustenance",
+        "description": "Luigi gave his clones some weird pills, now they can heal. Help Mario defeat these mutants!",
         "prepend": "from gameAPI import enemiesWithinRange, getFriendlyTroops, distanceToEntity",
         "append": "",
         "template": "def distributePoints(skill_points):\n    health = 0\n    damage = 0\n    range = 0\n    speed = 0\n    return [health, damage, range, speed]\n\ndef decideAction(self):\n    #self.attack(-1)\n    #self.move(1)"

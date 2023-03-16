@@ -96,11 +96,13 @@
                 <br />
                 A barrage of challenges. A need for strategy. A call for code. <br />
                 <br />
+                Scroll down for more!
               </span>
             </v-toolbar-title>
-            <v-btn v-if="!hideSubtitle" x-large color="primary" href="#onboarding">
+
+            <!-- <v-btn v-if="!hideSubtitle" x-large color="primary" @onclick="scrollToMain()">
               Play now
-            </v-btn>
+            </v-btn> -->
           </v-col>
         </v-row>
       </v-container>
@@ -110,7 +112,7 @@
       <router-view />
     </v-content>
     <v-content v-else :style="{ 'margin-top': height + 'px', minHeight: height + 'px' }">
-      <v-container fluid fill-height fill-width align="center" justify="center" id="onboarding">
+      <v-container fluid fill-height fill-width align="center" justify="center" ref="onboarding">
         <v-row align="center" justify="center">
           <v-col align="center" justify="center" cols="24" sm="8">
             <span>
@@ -282,6 +284,11 @@ export default Vue.extend({
     checkAvailability(input: string): boolean {
       return true;
     },
+    scrollToMain() {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      this.$refs["onboarding"].scrollIntoView({ behavior: "smooth" });
+    },
     onScroll() {
       if (window.scrollY > this.height * 0.7) {
         this.font = 1;
@@ -345,11 +352,6 @@ export default Vue.extend({
           name: "Profile",
           route: `/users/${(this.$store.state.user || {username: ""}).username}`,
           icon: "mdi-account"
-        },
-        {
-          name: "Challenges",
-          route: "/challenges",
-          icon: "mdi-crown"
         },
         {
           name: "Leaderboard",

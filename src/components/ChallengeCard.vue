@@ -9,6 +9,7 @@
     <v-card-subtitle>
       {{ challenge.description }}
     </v-card-subtitle>
+    <v-spacer/>
     <v-card-actions>
       <v-btn color="primary" dark :href="'#/challenges/' + challenge.id">
         Open
