@@ -154,7 +154,7 @@ export default {
   methods: {
     async run() {
       console.log(this.code);
-      this.results = await getResults(this.code);
+      this.results = await getResults(this.code, this.$route.params.id);
       console.log(this.results);
       clearInterval(this.animId);
       this.animId = setInterval(this.update, 10);

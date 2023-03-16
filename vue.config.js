@@ -10,7 +10,7 @@ module.exports = {
       .use("ts-loader")
       .loader("ts-loader");
   },
-  devServer: {
-    proxy: "http://34.142.168.126:3000/"
-  }
+  // devServer: {
+  //   // proxy: "http://34.142.168.126:3000/"
+  // }
 };

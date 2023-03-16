@@ -18,10 +18,10 @@ export async function getRandomQuotableQuote(): Promise<Quote> {
 }
 
 
-export async function getResults(code: string): Promise<any> {
+export async function getResults(code: string, level: number): Promise<any> {
   let results: any = [];
-  await axios.post("/sendCodeAI",
-  { code })
+  await axios.post("http://34.142.168.126:3000/sendCodeAI",
+  { code, level })
   .then(res => {
     results = res.data.output;
     console.log(results);
@@ -37,5 +37,5 @@ export async function getResults(code: string): Promise<any> {
 
 export async function updateDetails(playerDetails: Player) {
   console.log("calling updateDetails");
-  await axios.post("/updateDetails", playerDetails);
+  await axios.post("http://34.142.168.126:3000/updateDetails", playerDetails);
 }
