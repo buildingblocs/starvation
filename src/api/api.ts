@@ -5,7 +5,7 @@ import {Player} from "@/types/players";
 const random_quotable_url = "https://api.quotable.io/random";
 
 export async function getPlayers(): Promise<Player[]> {
-  return await (await fetch("http://34.142.168.126:3000/getPlayers")).json();
+  return await (await fetch("/getPlayers")).json();
 }
 
 export async function getQuotableQuote(): Promise<QuotableQuote> {
@@ -20,7 +20,7 @@ export async function getRandomQuotableQuote(): Promise<Quote> {
 
 export async function getResults(code: string, level: number): Promise<any> {
   let results: any = [];
-  await axios.post("http://34.142.168.126:3000/sendCodeAI",
+  await axios.post("/sendCodeAI",
   { code, level })
   .then(res => {
     results = res.data.output;
@@ -37,5 +37,5 @@ export async function getResults(code: string, level: number): Promise<any> {
 
 export async function updateDetails(playerDetails: Player) {
   console.log("calling updateDetails");
-  await axios.post("http://34.142.168.126:3000/updateDetails", playerDetails);
+  await axios.post("/updateDetails", playerDetails);
 }
