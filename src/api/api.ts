@@ -18,17 +18,26 @@ export async function getRandomQuotableQuote(): Promise<Quote> {
 }
 
 
-export function getBase64(url: string) {
-  return axios.get(url, {
-    responseType: "text",
-    responseEncoding: "base64",
-  })
-    .then(response => response.data);
+export async function getBase64(url: string) {
+  return blobToBase64(await (fetch(url).then(response => response.blob())));
+}
+
+function blobToBase64(blob: any): Promise<string> {
+  return new Promise((resolve, _) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const res = reader.result;
+      if(typeof res === "string") {
+        resolve(res.substring(22));
+      } else resolve("");
+    };
+    reader.readAsDataURL(blob);
+  });
 }
 
 
-export async function createUser(email: string, name: string, given_name: string) {
-  await axios.post("/addUser", { id: email, fullname: name, username: given_name, about: "", school: "" });
+export async function createUser(email: string, name: string, given_name: string, photo: string) {
+  await axios.post("/addUser", { id: email, fullname: name, username: given_name, about: "", school: "", photo });
 }
 
 /**

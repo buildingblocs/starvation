@@ -1,12 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import {User} from "@/types/users";
+import {Player} from "@/types/players";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-  state(): {user: User | null} {
+  state(): {user: Player | null} {
     return {
       user: null
     };

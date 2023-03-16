@@ -262,12 +262,22 @@ export default Vue.extend({
     clientId: "596255395612-2s6ld1u25tfcuefaiogu7jiorsj46e6i.apps.googleusercontent.com"
   }),
   methods: {
-    onGoogleAuthSuccess (jwtCredentials: string) {
+    async onGoogleAuthSuccess (jwtCredentials: string) {
       console.log(jwtCredentials);
       const profileData = JSON.parse( atob(jwtCredentials.split(".")[1]) );
       console.table(profileData);
-
-      console.log(getBase64(profileData.picture));
+      let pfp = (await getBase64(profileData.picture));
+      createUser(profileData.email, profileData.name, profileData.given_name, pfp);
+      this.$store.state.user = {
+        id: profileData.email,
+        fullname: profileData.name,
+        username: profileData.given_name,
+        school: "",
+        about: "",
+        pfp,
+        score: 0,
+        num_games: 0
+      };
     },
     checkAvailability(input: string): boolean {
       return true;
