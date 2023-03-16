@@ -73,7 +73,7 @@
                   prepend-icon="mdi-magnify"
                   color="primary"
                   style="font-size:10pt;"
-                  @click="user.about = tempAbout; editAbout = false; updateAbout()"
+                  @click="user.about = tempAbout; editAbout = false; updateDetails()"
               >
                   Save
               </v-btn>
@@ -85,7 +85,7 @@
         v-model="user.school"
         :items=schools
         :disabled="user.school.length !== 0 || user.username != $store.state.user.username"
-        @change="updateSchool()"
+        @change="updateDetails()"
       ></v-combobox>
 
       <v-btn block outlined color="error" @click="deleteUser()"
@@ -193,24 +193,20 @@ export default Vue.extend({
       }
       return "";
     },
-    updateSchool() {
-      document.cookie="school="+this.user.school+";expires=Fri, 31 Dec 2100 12:00:00 UTC";
+    updateDetails() {
       updateDetails(this.user);
-
-    },
-    updateAbout() {
-      document.cookie="about="+this.user.about+";expires=Fri, 31 Dec 2100 12:00:00 UTC";
-      updateDetails(this.user);
+      this.$store.state.user = this.user;
     },
     deleteUser() {
       deleteAccount(this.user.id);
+      localStorage.removeItem("jwt");
+      localStorage.removeItem("refresh");
+      localStorage.removeItem("renew");
       this.$store.state.user = null;
     }
   },
   async mounted() {
-    this.user = (await getPlayers()).filter(it => it.username == this.$route.params.username)[0];
-    this.updateSchool();
-    this.updateAbout();
+    this.user = this.$store.state.user;
     this.avatar.image = this.user.pfp;
   }
 });

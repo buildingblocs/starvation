@@ -1,6 +1,6 @@
 [
   {
-    "id": 0,
+    "id": 1,
     "title": "Getting Started",
     "description": "Set up your development environment and get used to Starvation!",
     "completed": true,
@@ -8,7 +8,7 @@
     "score": 100
   },
   {
-    "id": 1,
+    "id": 2,
     "title": "Paging for Python",
     "description": "Refamiliarise yourself with the inner workings of Python...",
     "completed": true,
@@ -16,15 +16,15 @@
     "score": 99
   },
   {
-    "id": 2,
+    "id": 3,
     "title": "Exploring Starvation",
-    "description": "Get used to the Starvation playstyle before me go in!",
+    "description": "Get used to the Starvation playstyle before we go in!",
     "completed": true,
     "lastUpdated": 1677151081207,
     "score": 67
   },
   {
-    "id": 3,
+    "id": 4,
     "title": "Combat Cometh",
     "description": "Let's get into the Combat!",
     "completed": true,
@@ -32,7 +32,7 @@
     "score": 14
   },
   {
-    "id": 4,
+    "id": 5,
     "title": "Code Crunch",
     "description": "Find the optimal path!",
     "completed": false,
@@ -40,7 +40,7 @@
     "score": 0
   },
   {
-    "id": 5,
+    "id": 6,
     "title": "Destroytion",
     "description": "Destroy your opponent!",
     "completed": false,
@@ -48,7 +48,7 @@
     "score": 0
   },
   {
-    "id": 6,
+    "id": 7,
     "title": "Third Act",
     "description": "Last Call!",
     "completed": false,
@@ -56,7 +56,7 @@
     "score": 0
   },
   {
-    "id": 7,
+    "id": 8,
     "title": "Combat Over",
     "description": "An Epilogue.",
     "completed": false,

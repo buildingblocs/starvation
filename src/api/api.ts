@@ -1,12 +1,11 @@
 import {QuotableQuote, Quote} from "@/types/quotes";
-import api from "@/util/axios";
-import axios from "axios";
+import getAPI from "@/util/axios";
 import {Player} from "@/types/players";
 
 const random_quotable_url = "https://api.quotable.io/random";
 
 export async function getPlayers(): Promise<Player[]> {
-  return await api.get("/getPlayers");
+  return (await getAPI().get("/getPlayers")).data;
 }
 
 export async function getQuotableQuote(): Promise<QuotableQuote> {
@@ -37,12 +36,12 @@ function blobToBase64(blob: any): Promise<string> {
 }
 
 export async function deleteAccount(email: string) {
-  await api.post("/deleteUser", { id: email });
+  await getAPI().post("/deleteUser", { id: email });
 }
 
 
 export async function createUser(email: string, name: string, given_name: string, photo: string) {
-  await api.post("/addUser", { id: email, fullname: name, username: given_name, about: "", school: "", photo });
+  await getAPI().post("/addUser", { id: email, fullname: name, username: given_name, about: "", school: "", photo });
 }
 
 /**
@@ -55,7 +54,7 @@ export async function createUser(email: string, name: string, given_name: string
 
 export async function getResults(code: string, level: number): Promise<any> {
   let results: any = [];
-  await api.post("/sendCodeAI",
+  await getAPI().post("/sendCodeAI",
   { code, level })
   .then(res => {
     results = res.data.output;
@@ -72,5 +71,13 @@ export async function getResults(code: string, level: number): Promise<any> {
 
 export async function updateDetails(playerDetails: Player) {
   console.log("calling updateDetails");
-  await api.post("/updateDetails", playerDetails);
+  await getAPI().post("/updateDetails", playerDetails);
+}
+
+export async function checkLoggedIn(): Promise<any> {
+  return await getAPI().get("/testLogin");
+}
+
+export async function resolveLogin(code: string): Promise<any> {
+  return await getAPI().get("/login/resolver", { params: { code } });
 }

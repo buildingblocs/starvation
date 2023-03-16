@@ -145,7 +145,10 @@ export default {
 
   computed: {
     selectedTask() {
-      return challenges.find(challenge => challenge.id === this.$route.params.id);
+      console.log(typeof this.$route.params.id, challenges);
+      const task = challenges.find(challenge => challenge.id === parseInt(this.$route.params.id, 10));
+      console.log(task);
+      return task;
     }
   },
 
