@@ -5,7 +5,7 @@ import {Player} from "@/types/players";
 const random_quotable_url = "https://api.quotable.io/random";
 
 export async function getPlayers(): Promise<Player[]> {
-  return await (await fetch("/getPlayers")).json();
+  return await (await fetch("http://34.142.168.126:3000/getPlayers")).json();
 }
 
 export async function getQuotableQuote(): Promise<QuotableQuote> {
