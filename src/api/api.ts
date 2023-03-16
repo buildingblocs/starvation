@@ -1,11 +1,12 @@
 import {QuotableQuote, Quote} from "@/types/quotes";
+import api from "@/util/axios";
 import axios from "axios";
 import {Player} from "@/types/players";
 
 const random_quotable_url = "https://api.quotable.io/random";
 
 export async function getPlayers(): Promise<Player[]> {
-  return await (await fetch("/getPlayers")).json();
+  return await api.get("/getPlayers");
 }
 
 export async function getQuotableQuote(): Promise<QuotableQuote> {
@@ -36,12 +37,12 @@ function blobToBase64(blob: any): Promise<string> {
 }
 
 export async function deleteAccount(email: string) {
-  await axios.post("/deleteUser", { id: email });
+  await api.post("/deleteUser", { id: email });
 }
 
 
 export async function createUser(email: string, name: string, given_name: string, photo: string) {
-  await axios.post("/addUser", { id: email, fullname: name, username: given_name, about: "", school: "", photo });
+  await api.post("/addUser", { id: email, fullname: name, username: given_name, about: "", school: "", photo });
 }
 
 /**
@@ -54,7 +55,7 @@ export async function createUser(email: string, name: string, given_name: string
 
 export async function getResults(code: string, level: number): Promise<any> {
   let results: any = [];
-  await axios.post("/sendCodeAI",
+  await api.post("/sendCodeAI",
   { code, level })
   .then(res => {
     results = res.data.output;
@@ -71,5 +72,5 @@ export async function getResults(code: string, level: number): Promise<any> {
 
 export async function updateDetails(playerDetails: Player) {
   console.log("calling updateDetails");
-  await axios.post("/updateDetails", playerDetails);
+  await api.post("/updateDetails", playerDetails);
 }
