@@ -170,11 +170,12 @@
                         x-large
                         v-model="username"
                         placeholder="Username"
+                        @input="checkAvailability"
                         required
                       ></v-text-field>
                       <v-spacer />
                     </v-col>
-                    <v-col cols="12" sm="4">
+                    <!-- <v-col cols="12" sm="4">
                       <h3>Password</h3>
                       <v-text-field
                         x-large
@@ -186,13 +187,18 @@
                         required
                       >
                       </v-text-field>
-                    </v-col>
+                    </v-col> -->
                   </v-row>
                 </v-form>
                 <v-row align="center" justify="center" class="my-6">
                   <v-btn x-large color="primary" @click="login()" v-if="$store.state.user == null">
                     Register
                   </v-btn>
+                  <div style="display: flex; justify-content: center"
+                    id="google-login-btn"
+                    v-google-identity-login-btn="{ clientId, locale:'en' }">
+                      Register with Google
+                  </div>
                 </v-row>
               </v-tab-item>
             </v-tabs-items>
@@ -228,11 +234,18 @@
 <script lang="ts">
 import Vue from "vue";
 import users from "./data/users.json";
+import {getBase64, createUser} from "@/api/api";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import GoogleSignInButton from "vue-google-identity-login-btn";
 
 export default Vue.extend({
   name: "App",
   el: "#app",
   components: {},
+  directives: {
+    GoogleSignInButton
+  },
   data: () => ({
     drawerShown: false,
     loginItems: ["Login", "Register"],
@@ -245,9 +258,20 @@ export default Vue.extend({
     hideSubtitle: false,
     imgIsLoaded: false,
     showLoginError: false,
-    tab: null
+    tab: null,
+    clientId: "596255395612-2s6ld1u25tfcuefaiogu7jiorsj46e6i.apps.googleusercontent.com"
   }),
   methods: {
+    onGoogleAuthSuccess (jwtCredentials: string) {
+      console.log(jwtCredentials);
+      const profileData = JSON.parse( atob(jwtCredentials.split(".")[1]) );
+      console.table(profileData);
+
+      console.log(getBase64(profileData.picture));
+    },
+    checkAvailability(input: string): boolean {
+      return true;
+    },
     onScroll() {
       if (window.scrollY > this.height * 0.7) {
         this.font = 1;

@@ -18,6 +18,27 @@ export async function getRandomQuotableQuote(): Promise<Quote> {
 }
 
 
+export function getBase64(url: string) {
+  return axios.get(url, {
+    responseType: "text",
+    responseEncoding: "base64",
+  })
+    .then(response => response.data);
+}
+
+
+export async function createUser(email: string, name: string, given_name: string) {
+  await axios.post("/addUser", { id: email, fullname: name, username: given_name, about: "", school: "" });
+}
+
+/**
+ *     id = data["id"]
+    fullname = data["fullname"]
+    username = data["username"]
+    school = data["school"]
+    about = data["about"]
+ */
+
 export async function getResults(code: string, level: number): Promise<any> {
   let results: any = [];
   await axios.post("/sendCodeAI",
