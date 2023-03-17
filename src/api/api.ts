@@ -89,6 +89,16 @@ export async function getCode(id: string, level: string): Promise<string> {
   return await getAPI().get(`/getChallengeCode?level=${level}&id=${id}`).then(res => res.data.code);
 }
 
+export class ChallengeResult {
+  level!: number
+  lastupdated!: string
+  winner!: boolean
+}
+
+export async function getChallenges(id: string): Promise<ChallengeResult[]> {
+  return await getAPI().get(`/getChallenges/${id}`).then(res => res.data);
+}
+
 export async function resolveLogin(code: string): Promise<any> {
   return await getAPI().get("/login/resolver", { params: { code } });
 }

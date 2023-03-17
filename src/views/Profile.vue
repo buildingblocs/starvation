@@ -17,7 +17,7 @@
           <span>{{ timeAgo.format(item.lastUpdated) }}</span>
         </template>
         <template v-slot:item.title="{ item }">
-          <a :href="`#/challenge/${item.id}`" style="color:#2A52BE">Mission {{ item.id }} - {{ item.title }}</a>
+          <a :href="`#/challenge/${item.id}`" style="color:#2A52BE">Mission {{ item.level }} - {{ item.title }}</a>
         </template>
       </v-data-table>
     </v-card>
@@ -101,12 +101,12 @@ import Vue from "vue";
 
 import school_list from "../data/schools.json";
 
-import challenges from "../data/challenges.json";
+import challenges from "../data/games.json";
 
-import { timeAgo } from "@/util/datetime";
+import { timeAgo, convertSQLTimestampToDate } from "@/util/datetime";
 import { getPlayers } from "@/api/api";
 import { Player } from "@/types/players";
-import { updateDetails, deleteAccount } from "@/api/api";
+import { updateDetails, deleteAccount, getChallenges } from "@/api/api";
 import ImageInput from "@/components/ImageInput.vue";
 
 export default Vue.extend({
@@ -131,9 +131,9 @@ export default Vue.extend({
       timeAgo: timeAgo,
       headers: [
         {text: "Challenge", value: "title"},
-        {text: "Score", value: "score"},
+        {text: "Winner", value: "winner"},
         {text: "Last Solved", value: "lastUpdated"}],
-      challenges:  challenges.filter(it => it.completed)
+      challenges:  Array<any>()
     };
   },
   watch:{
@@ -184,6 +184,18 @@ export default Vue.extend({
   async mounted() {
     this.user = (await getPlayers()).filter(it => it.username == this.$route.params.username)[0];
     this.avatar.image = this.user.pfp;
+    let results = await getChallenges(this.user.id);
+    console.log(results);
+    this.challenges = (await getChallenges(this.user.id)).map(it => {
+      let challenge = challenges.filter(it2 => it2.id == it.level)[0];
+      return {
+        level: it.level,
+        title: challenge.title,
+        winner: it.winner ? "You" : "AI",
+        lastUpdated: convertSQLTimestampToDate(it.lastupdated)
+      };
+    });
+    console.log(this.challenges);
   }
 });
 
