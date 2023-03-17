@@ -229,7 +229,7 @@ export default {
       this.animating = true;
       this.animId = setInterval(this.update, 1000 / this.fps);
       this.troops = [];
-      updateResults(this.$store.state.user.id, this.$route.params.id, this.code, this.winner == "You" ? 1 : 0);
+      updateResults(this.$store.state.user.id, this.$route.params.id, this.code, this.winner === "You" ? 1 : 0);
     },
 
     save() {
