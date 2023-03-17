@@ -12,14 +12,14 @@
     <v-row no-gutter>
       <v-col>
         <v-card :height="300" color="green" id="canvas">
-          <div class="justify-center" :style="{'margin-left': '50px', 'margin-top': '80px', 'position':'absolute', 'font-size':'8pt'}">
+          <div class="justify-center" :style="{'margin-left': '50px', 'bottom': '102px', 'position':'absolute', 'font-size':'8pt'}">
             {{ homeHealth }}<br>
           <v-img :width="50"
                 :src="sprites.homeBase">
 
           </v-img>
         </div>
-          <div class="justify-center" :style="{'margin-left': '500px', 'margin-top': '80px', 'position':'absolute', 'font-size':'8pt', 'align':'center'}">
+          <div class="justify-center" :style="{'margin-left': '500px', 'bottom': '102px', 'position':'absolute', 'font-size':'8pt', 'align':'center'}">
             {{ oppHealth }}<br>
             <v-img :width="50"
                   :src="sprites.oppBase">
