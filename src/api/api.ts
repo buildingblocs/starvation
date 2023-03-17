@@ -63,20 +63,8 @@ class Result {
 }
 
 export async function getResults(code: string, level: number, id: string): Promise<any> {
-  let results: Result = {details: [], result: "right", runtime: 0};
-  await getAPI().post("/sendCodeAI",
-  { code, level, id })
-  .then(res => {
-    results = res.data.output as Result;
-    console.log(results);
-  },
-  res => {
-    console.log("error");
-  })
-  .catch(err => {
-    console.log(err);
-  });
-  return results;
+  const resp = await getAPI().post("/sendCodeAI", { code, level, id })
+  return resp.data;
 }
 
 export async function updateDetails(playerDetails: Player) {
