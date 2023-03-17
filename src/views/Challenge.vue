@@ -27,7 +27,7 @@
             </v-img>
           </div>
           <div v-for="troop in troops" :key="troop.id" class="justify-center" :style="{'margin-left': troop.marginLeft+'px', 'bottom': '100px', 'position':'absolute', 'font-size':'8pt', 'align':'center'}">
-            <!-- {{ troop.health }}--><br>
+            {{ troop.health }} <br>
             <v-img :width="10"
                   :src="troop.imgSrc">
 
@@ -243,6 +243,7 @@ export default {
     update() {
       if(this.timeFrame >= this.results.length || this.results[this.timeFrame]["1"].h < 0 || this.results[this.timeFrame]["-1"].h < 0) {
         clearInterval(this.animId);
+        console.log(this.troops);
         this.animating = false;
         console.log("stopped");
         this.timeFrame = 0;
@@ -250,6 +251,17 @@ export default {
       } else {
         this.homeHealth = Math.floor(this.results[this.timeFrame]["1"].h);
         this.oppHealth = Math.floor(this.results[this.timeFrame]["-1"].h);
+        const aliveTroops = Object.entries(this.results[this.timeFrame]);
+        const toDelete = [];
+        for(const troop of this.troops) {
+          if (aliveTroops.filter(it => it[0] == troop.id).length === 0) {
+            toDelete.push(troop);
+            console.log("died");
+          }
+        }
+        for(const troop of toDelete) {
+          this.troops.splice(this.troops.indexOf(troop), 1);
+        }
         for(const [troopId, troop] of Object.entries(this.results[this.timeFrame])) {
           if((troopId == "-1") || (troopId == "1")) continue;
 
