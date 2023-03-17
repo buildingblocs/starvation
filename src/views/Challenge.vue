@@ -113,7 +113,7 @@
         >
           <v-card>
             <v-card-title class="text-h4">
-              {{winner}} Wins!
+              {{ (winner == 'You' ? 'You Win :)' : 'AI Wins :(') }}
             </v-card-title>
             <v-card-text class="text-body-1">{{ (winner == 'You' ? 'Good Job!' : 'Oops, try again!') }}</v-card-text>
             <v-card-actions>
