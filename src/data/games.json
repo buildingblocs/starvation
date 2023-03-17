@@ -5,7 +5,7 @@
         "description": "Mario hates Luigi, and wants to attack him. He will send a clone of himself every few seconds but he needs your help training them. With the distributeSkill function, help him decide how to train each Mario clone",
         "prepend": "",
         "append": "def decideAction(self):\n    attackable = enemiesWithinRange(self)\n    if (len(attackable) != 0): attack(self, attackable[0])\n    else: self.move(1)",
-        "template": "def distributeSkill(skill_points):\n    health = 0\n    damage = 0\n    range = 0\n    speed = 0\n    return [health, damage, range, speed]\n\n"
+        "template": "def distributeSkill(skill_points):\n    # Mario's Clones have 4 main properties:\n    #    - Health\n    #    - Damage\n    #    - Range\n    #    - Speed\n    # Update the values below until they add up to skill_points, and check out how Mario performs agains Luigi!\n    health = 0\n    damage = 0\n    range = 0\n    speed = 0\n    return [health, damage, range, speed]"
     },
     {
         "id": 2,
