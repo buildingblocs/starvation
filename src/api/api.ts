@@ -79,9 +79,9 @@ export async function checkLoggedIn(): Promise<any> {
   });
 }
 
-export async function updateResults(id: string, level: string, code: string): Promise<any> {
+export async function updateResults(id: string, level: string, code: string, winner: boolean): Promise<any> {
   return await getAPI().post("/updateChallenge", {
-    id, 'level': parseInt(level, 10), code
+    id, level: parseInt(level, 10), code, winner
   });
 }
 
