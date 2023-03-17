@@ -155,6 +155,7 @@ export default {
       oppHealth: 250,
       animId: 0,
       timeFrame: 0,
+      fps: 30,
       troops: [],
       results: [],
       loading: false,
@@ -181,7 +182,7 @@ export default {
       this.loading = false;
       console.log(this.results);
       clearInterval(this.animId);
-      this.animId = setInterval(this.update, 10);
+      this.animId = setInterval(this.update, 1000 / this.fps);
       this.troops = [];
       updateResults(this.$store.state.user.id, this.$route.params.id, this.code);
     },
