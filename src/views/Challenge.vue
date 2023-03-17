@@ -26,7 +26,7 @@
 
             </v-img>
           </div>
-          <div v-for="troop in troops" :key="troop.id" class="justify-center" :style="{'margin-left': troop.marginLeft+'px', 'margin-top': '80px', 'position':'absolute', 'font-size':'8pt', 'align':'center'}">
+          <div v-for="troop in troops" :key="troop.id" class="justify-center" :style="{'margin-left': troop.marginLeft+'px', 'margin-top': '160px', 'position':'absolute', 'font-size':'8pt', 'align':'center'}">
             <!-- {{ troop.health }}--><br>
             <v-img :width="10"
                   :src="troop.imgSrc">
