@@ -33,7 +33,15 @@
 
             </v-img>
           </div>
-        </v-card>
+        <v-progress-circular
+      :size="120"
+      :width="12"
+      color="purple"
+      indeterminate
+      style="margin-left: 220px; margin-top: 80px;"
+      v-show="loading"
+    ></v-progress-circular>
+        </v-card><br>
       </v-col>
 
       <v-col>
@@ -98,6 +106,28 @@
       </v-btn>
     </v-speed-dial>
     </v-row>
+        <v-dialog
+          v-model="showWin"
+          persistent
+          :width="500"
+        >
+          <v-card>
+            <v-card-title class="text-h4">
+              {{winner}} Wins!
+            </v-card-title>
+            <v-card-text class="text-body-1">{{ (winner == 'Left' ? 'Good Job!' : 'Oops, try again!') }}</v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary"
+                variant="text"
+                @click="showWin = false"
+              >
+                Close
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
   </v-container>
 </template>
 
@@ -126,7 +156,10 @@ export default {
       animId: 0,
       timeFrame: 0,
       troops: [],
-      results: []
+      results: [],
+      loading: false,
+      showWin: false,
+      winner: "Right"
     };
   },
   mounted() {
@@ -141,13 +174,16 @@ export default {
   methods: {
     async run() {
       console.log(this.code);
+      this.loading = true;
       let result = await getResults(this.challenge.prepend+ "\n" + this.code + "\n" + this.challenge.append, this.id, this.$store.state.user.id);
       this.results = result.details;
+      this.winner = result.result[0].toUpperCase() + result.result.substring(1);
+      this.loading = false;
       console.log(this.results);
       clearInterval(this.animId);
       this.animId = setInterval(this.update, 10);
       this.troops = [];
-      //updateResults(this.$store.state.user.id, this.$route.params.id, this.code);
+      updateResults(this.$store.state.user.id, this.$route.params.id, this.code);
     },
 
     save() {
@@ -165,8 +201,8 @@ export default {
         this.timeFrame = 0;
 
       } else {
-        this.homeHealth = this.results[this.timeFrame]["1"].h;
-        this.oppHealth = this.results[this.timeFrame]["-1"].h;
+        this.homeHealth = Math.floor(this.results[this.timeFrame]["1"].h);
+        this.oppHealth = Math.floor(this.results[this.timeFrame]["-1"].h);
         for(const [troopId, troop] of Object.entries(this.results[this.timeFrame])) {
           if((troopId == "-1") || (troopId == "1")) continue;
 
@@ -178,7 +214,7 @@ export default {
             let itemIndex = this.troops.indexOf(search[0]);
             if(troop.h >= 0) {
               this.troops[itemIndex].h = troop.h;
-              this.troops[itemIndex].marginLeft = (troop.Position / 1000) * 450 + 50;
+              this.troops[itemIndex].marginLeft = (troop.p / 1000) * 450 + 50;
             } else {
               this.troops[itemIndex].h = troop.h;
               this.troops = this.troops.splice(itemIndex, 1);
@@ -189,7 +225,7 @@ export default {
             this.troops.push({
               id: troopId,
               health: troop.h,
-              marginLeft: (troop.Position / 1000) * 450 + 50,
+              marginLeft: (troop.p / 1000) * 450 + 50,
               imgSrc: troopId.includes("-") ? sprites.oppTroop : sprites.homeTroop
             });
           }
