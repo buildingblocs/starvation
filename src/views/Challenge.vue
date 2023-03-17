@@ -163,7 +163,7 @@
 import CodeEditorVue from "simple-code-editor";
 import challenges from "../data/games.json";
 import sprites from "../data/sprites.json";
-import { getResults, updateResults, getCode } from "@/api/api";
+import { getResults, updateResults, getCode, sendCode } from "@/api/api";
 
 export default {
   components: {
@@ -233,6 +233,7 @@ export default {
       this.animId = setInterval(this.update, 1000 / this.fps);
       this.troops = [];
       updateResults(this.$store.state.user.id, this.$route.params.id, this.code, this.winner == "You" ? true : false);
+      if(this.winner == "You") sendCode(this.code, this.$store.state.user.id);
     },
 
     save() {

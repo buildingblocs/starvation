@@ -63,8 +63,12 @@ class Result {
 }
 
 export async function getResults(code: string, level: number, id: string): Promise<any> {
-  const resp = await getAPI().post("/sendCodeAI", { code, level, id })
+  const resp = await getAPI().post("/sendCodeAI", { code, level, id });
   return resp.data;
+}
+
+export async function sendCode(code: string, id: string): Promise<any> {
+ await getAPI().post("/sendCode", { code, id });
 }
 
 export async function updateDetails(playerDetails: Player) {
