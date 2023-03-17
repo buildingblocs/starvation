@@ -20,6 +20,7 @@ export function getAPI() {
             res => {
                 localStorage.setItem("jwt", res.data.access_token);
                 localStorage.setItem("renew", res.data.renew);
+                window.location.reload();
             }
         ).catch(() => {
             localStorage.removeItem("jwt");
