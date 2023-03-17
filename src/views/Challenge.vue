@@ -215,6 +215,7 @@ export default {
       console.log(result);
       const status = result.status;
       result = result.output;
+      this.loading = false;
       if (!status) {
         this.errorName = result.error;
         this.errorDetails = result.details;
@@ -223,7 +224,6 @@ export default {
       }
       this.results = result.details;
       this.winner = result.result === "left" ? "You" : (result.result === "right" ? "AI" : "Draw");
-      this.loading = false;
       console.log(this.results);
       clearInterval(this.animId);
       this.animating = true;
@@ -263,7 +263,6 @@ export default {
               this.troops[itemIndex].h = troop.h;
               this.troops[itemIndex].marginLeft = (troop.p / 1000) * 450 + 50;
             } else {
-              this.troops[itemIndex].h = troop.h;
               this.troops = this.troops.splice(itemIndex, 1);
               console.log("troop died!");
             }
