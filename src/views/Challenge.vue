@@ -12,7 +12,7 @@
     <v-row no-gutter>
       <v-col>
         <v-card :height="300" color="green" id="canvas">
-          <div class="justify-center" :style="{'margin-left': '50px', 'bottom': '102px', 'position':'absolute', 'font-size':'8pt'}">
+          <div class="justify-center" :style="{'margin-left': '50px', 'bottom': '100px', 'position':'absolute', 'font-size':'8pt'}">
             {{ homeHealth }}<br>
           <v-img :width="50"
                 :src="sprites.homeBase">
@@ -26,7 +26,7 @@
 
             </v-img>
           </div>
-          <div v-for="troop in troops" :key="troop.id" class="justify-center" :style="{'margin-left': troop.marginLeft+'px', 'margin-top': '160px', 'position':'absolute', 'font-size':'8pt', 'align':'center'}">
+          <div v-for="troop in troops" :key="troop.id" class="justify-center" :style="{'margin-left': troop.marginLeft+'px', 'bottom': '100px', 'position':'absolute', 'font-size':'8pt', 'align':'center'}">
             <!-- {{ troop.health }}--><br>
             <v-img :width="10"
                   :src="troop.imgSrc">
