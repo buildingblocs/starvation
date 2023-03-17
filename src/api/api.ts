@@ -82,7 +82,8 @@ export async function updateDetails(playerDetails: Player) {
 
 export async function checkLoggedIn(): Promise<any> {
   return await getAPI().get("/testLogin", {
-    withCredentials: true
+    withCredentials:false
+    // put the rest of your config here
   });
 }
 
