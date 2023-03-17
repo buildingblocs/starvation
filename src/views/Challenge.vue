@@ -147,7 +147,7 @@ export default {
       clearInterval(this.animId);
       this.animId = setInterval(this.update, 10);
       this.troops = [];
-      updateResults(this.$store.state.user.id, this.$route.params.id, this.code);
+      //updateResults(this.$store.state.user.id, this.$route.params.id, this.code);
     },
 
     save() {
