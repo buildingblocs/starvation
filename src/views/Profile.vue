@@ -182,7 +182,7 @@ export default Vue.extend({
     }
   },
   async mounted() {
-    this.user = (await getPlayers()).filter(it => it.username = this.$route.params.username)[0];
+    this.user = (await getPlayers()).filter(it => it.username == this.$route.params.username)[0];
     this.avatar.image = this.user.pfp;
   }
 });
