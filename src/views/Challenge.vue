@@ -163,7 +163,7 @@
 import CodeEditorVue from "simple-code-editor";
 import challenges from "../data/games.json";
 import sprites from "../data/sprites.json";
-import { getResults, updateResults } from "@/api/api";
+import { getResults, updateResults, getCode } from "@/api/api";
 
 export default {
   components: {
@@ -195,13 +195,16 @@ export default {
       winner: "Right"
     };
   },
-  mounted() {
+  async mounted() {
     console.log(challenges);
     console.log(this.$route.params.id);
     this.challenge = challenges[this.$route.params.id-1];
     console.log(this.challenge);
     this.id = this.$route.params.id;
     this.code = this.challenge.template;
+    let fetched = await getCode(this.$store.state.user.id, this.id);
+    console.log(fetched);
+    if(fetched.length > 0) this.code = fetched;
   },
 
   methods: {
