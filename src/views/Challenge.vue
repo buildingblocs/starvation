@@ -189,7 +189,7 @@ export default {
       results: [],
       loading: false,
       showWin: false,
-      showError: true,
+      showError: false,
       errorDetails: "xd\nxd",
       errorName: "xd",
       winner: "Right"
