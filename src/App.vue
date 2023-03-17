@@ -281,7 +281,7 @@ export default Vue.extend({
       sessionStorage.setItem("logging", "1");
       const currentLocation = window.location.origin;
       console.log(currentLocation);
-      window.location.href = `https://starvation-api.buildingblocs.sg/login?next=${currentLocation}&create=${create}`;
+      window.location.href = `http://starvation-api.buildingblocs.sg/login?next=${currentLocation}&create=${create}`;
     },
       getCookie(cname: string) {
         let name = cname + "=";
@@ -360,7 +360,7 @@ export default Vue.extend({
         sessionStorage.clear();
       } else {
         if (sessionStorage.getItem("logging")) {
-          const uri = window.location.search; 
+          const uri = window.location.search;
           const params = new URLSearchParams(uri);
           const code = params.get("code");
           console.log(code);
