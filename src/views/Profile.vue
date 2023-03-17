@@ -84,7 +84,7 @@
         label="School"
         v-model="user.school"
         :items=schools
-        :disabled="user.school.length !== 0 || user.username != $store.state.user.username"
+        :disabled="user.username != $store.state.user.username"
         @change="updateDetails()"
       ></v-combobox>
 

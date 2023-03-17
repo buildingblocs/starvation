@@ -87,6 +87,12 @@ export async function checkLoggedIn(): Promise<any> {
   });
 }
 
+export async function updateResults(id: string, level: number, code: string): Promise<any> {
+  return await getAPI().post("/updateChallenge", {
+    id, level, code
+  });
+}
+
 export async function resolveLogin(code: string): Promise<any> {
   return await getAPI().get("/login/resolver", { params: { code } });
 }
