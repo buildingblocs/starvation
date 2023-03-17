@@ -26,7 +26,7 @@
 
             </v-img>
           </div>
-          <div v-for="troop in troops" :key="troop.id" class="justify-center" :style="{'margin-left': troop.marginLeft+'px', 'margin-top': '80px', 'position':'absolute', 'font-size':'8pt', 'align':'center'}">
+          <div v-for="troop in troops" :key="troop.id" class="justify-center" :style="{'margin-left': troop.marginLeft+'px', 'margin-top': '160px', 'position':'absolute', 'font-size':'8pt', 'align':'center'}">
             <!-- {{ troop.health }}--><br>
             <v-img :width="10"
                   :src="troop.imgSrc">
@@ -178,7 +178,7 @@ export default {
             let itemIndex = this.troops.indexOf(search[0]);
             if(troop.h >= 0) {
               this.troops[itemIndex].h = troop.h;
-              this.troops[itemIndex].marginLeft = (troop.Position / 1000) * 450 + 50;
+              this.troops[itemIndex].marginLeft = (troop.p / 1000) * 450 + 50;
             } else {
               this.troops[itemIndex].h = troop.h;
               this.troops = this.troops.splice(itemIndex, 1);
@@ -189,7 +189,7 @@ export default {
             this.troops.push({
               id: troopId,
               health: troop.h,
-              marginLeft: (troop.Position / 1000) * 450 + 50,
+              marginLeft: (troop.p / 1000) * 450 + 50,
               imgSrc: troopId.includes("-") ? sprites.oppTroop : sprites.homeTroop
             });
           }
