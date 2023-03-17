@@ -199,6 +199,7 @@ export default {
         clearInterval(this.animId);
         console.log("stopped");
         this.timeFrame = 0;
+        this.showWin = true;
 
       } else {
         this.homeHealth = Math.floor(this.results[this.timeFrame]["1"].h);
