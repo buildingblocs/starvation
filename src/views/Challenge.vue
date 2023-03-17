@@ -42,6 +42,9 @@
       v-show="loading"
     ></v-progress-circular>
         </v-card><br>
+        <v-btn v-if="animating" @click="setToEnd()">
+          Fast Forward
+        </v-btn>
       </v-col>
 
       <v-col>
@@ -128,6 +131,31 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-dialog
+          v-model="showError"
+          persistent
+          :width="500"
+        >
+          <v-card>
+            <v-card-title class="text-h4">
+              An error occurred :(
+            </v-card-title>
+            <v-card-text class="text-body-1">{{ errorName }}</v-card-text>
+            <v-card-text style="width: 100%; display: flex;">
+              <code style="width: 100%; white-space: pre-wrap;">{{ errorDetails }}</code>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary"
+                variant="text"
+                @click="showError = false"
+              >
+                Close
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
   </v-container>
 </template>
 
@@ -156,10 +184,14 @@ export default {
       animId: 0,
       timeFrame: 0,
       fps: 30,
+      animating: false,
       troops: [],
       results: [],
       loading: false,
       showWin: false,
+      showError: true,
+      errorDetails: "xd\nxd",
+      errorName: "xd",
       winner: "Right"
     };
   },
@@ -173,15 +205,25 @@ export default {
   },
 
   methods: {
+    setToEnd() {
+      this.timeFrame = this.results.length - 2;
+    },
     async run() {
       console.log(this.code);
       this.loading = true;
       let result = await getResults(this.challenge.prepend+ "\n" + this.code + "\n" + this.challenge.append, this.id, this.$store.state.user.id);
+      const status = result.status;
+      if (!status) {
+        this.errorName = result.error;
+        this.errorDetails = result.details;
+        this.showError = true;
+      }
       this.results = result.details;
       this.winner = result.result === "left" ? "You" : (result.result === "right" ? "AI" : "Draw");
       this.loading = false;
       console.log(this.results);
       clearInterval(this.animId);
+      this.animating = true;
       this.animId = setInterval(this.update, 1000 / this.fps);
       this.troops = [];
       updateResults(this.$store.state.user.id, this.$route.params.id, this.code);
@@ -196,12 +238,12 @@ export default {
       clearInterval(this.animId);
     },
     update() {
-      if(this.timeFrame == this.results.length || this.results[this.timeFrame]["1"].h < 0 || this.results[this.timeFrame]["-1"].h < 0) {
+      if(this.timeFrame >= this.results.length || this.results[this.timeFrame]["1"].h < 0 || this.results[this.timeFrame]["-1"].h < 0) {
         clearInterval(this.animId);
+        this.animating = false;
         console.log("stopped");
         this.timeFrame = 0;
         this.showWin = true;
-
       } else {
         this.homeHealth = Math.floor(this.results[this.timeFrame]["1"].h);
         this.oppHealth = Math.floor(this.results[this.timeFrame]["-1"].h);
