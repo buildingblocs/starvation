@@ -9,6 +9,7 @@ Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
+    name: "Home",
     path: "/",
     component: Challenges
   },

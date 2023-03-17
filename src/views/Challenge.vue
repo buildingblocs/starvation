@@ -152,7 +152,7 @@ export default {
   methods: {
     async run() {
       console.log(this.code);
-      let result = await getResults(this.challenge.prepend+ "\n" + this.code + "\n" + this.challenge.append, this.id);
+      let result = await getResults(this.challenge.prepend+ "\n" + this.code + "\n" + this.challenge.append, this.id, this.$store.state.user.id);
       this.results = result.details;
       console.log(this.results);
       clearInterval(this.animId);

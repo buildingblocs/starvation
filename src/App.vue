@@ -130,36 +130,9 @@
             </v-tabs>
             <v-tabs-items v-model="tab">
               <v-tab-item :key="'Login'">
-                <v-form ref="form" lazy-validation>
-                  <v-row align="center" justify="center" class="ma-4">
-                    <v-col cols="12" sm="4">
-                      <h3>Username</h3>
-                      <v-text-field
-                        x-large
-                        v-model="username"
-                        placeholder="Username"
-                        required
-                      ></v-text-field>
-                      <v-spacer />
-                    </v-col>
-                    <v-col cols="12" sm="4">
-                      <h3>Password</h3>
-                      <v-text-field
-                        x-large
-                        v-model="password"
-                        placeholder="Password"
-                        :type="showPassword ? 'text' : 'password'"
-                        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                        @click:append="showPassword = !showPassword"
-                        required
-                      >
-                      </v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-form>
                 <v-row align="center" justify="center" class="my-6">
-                  <v-btn x-large color="primary" @click="login()" v-if="$store.state.user == null">
-                    Login
+                  <v-btn x-large color="primary" @click="login('false')" v-if="$store.state.user == null">
+                    Login with Google!
                   </v-btn>
                 </v-row>
               </v-tab-item>
@@ -177,30 +150,22 @@
                       ></v-text-field>
                       <v-spacer />
                     </v-col>
-                    <!-- <v-col cols="12" sm="4">
-                      <h3>Password</h3>
+                    <v-col cols="12" sm="4">
+                      <h3>School</h3>
                       <v-text-field
                         x-large
-                        v-model="password"
-                        placeholder="Password"
-                        :type="showPassword ? 'text' : 'password'"
-                        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                        @click:append="showPassword = !showPassword"
+                        v-model="school"
+                        placeholder="School"
                         required
-                      >
-                      </v-text-field>
-                    </v-col> -->
+                      ></v-text-field>
+                      <v-spacer />
+                    </v-col>
                   </v-row>
                 </v-form>
                 <v-row align="center" justify="center" class="my-6">
-                  <v-btn x-large color="primary" @click="login()" v-if="$store.state.user == null">
-                    Register
+                  <v-btn x-large color="primary" @click="create()" v-if="$store.state.user == null">
+                    Register with Google
                   </v-btn>
-                  <div style="display: flex; justify-content: center"
-                    id="google-login-btn"
-                    v-google-identity-login-btn="{ clientId, locale:'en' }">
-                      Register with Google
-                  </div>
                 </v-row>
               </v-tab-item>
             </v-tabs-items>
@@ -215,7 +180,7 @@
             <v-card-title class="text-h4">
               Login Error
             </v-card-title>
-            <v-card-text class="text-body-1">Either your username or password is incorrect.</v-card-text>
+            <v-card-text class="text-body-1">Login error; does the account exist?</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
@@ -236,10 +201,11 @@
 <script lang="ts">
 import Vue from "vue";
 import users from "./data/users.json";
-import {getBase64, createUser} from "@/api/api";
+import {getBase64, createUser, checkLoggedIn, updateDetails, resolveLogin} from "@/api/api";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import GoogleSignInButton from "vue-google-identity-login-btn";
+import { Player } from "./types/players";
 
 export default Vue.extend({
   name: "App",
@@ -252,6 +218,7 @@ export default Vue.extend({
     drawerShown: false,
     loginItems: ["Login", "Register"],
     username: "",
+    school: "",
     password: "",
     backgroundImg:
       "https://images.unsplash.com/photo-1597407068889-782ba11fb621?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8ZGFyayUyMG1vdW50YWlufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
@@ -304,15 +271,17 @@ export default Vue.extend({
     imgLoaded() {
       this.imgIsLoaded = true;
     },
-    login() {
-      const res = users.filter(it => it.username == this.username && it.password == this.password);
-      if (res.length > 0) {
-        this.$store.state.user = res[0];
-        document.cookie = `username=${this.username};expires=Fri, 31 Dec 2100 12:00:00 UTC`;
-        document.cookie = `password=${this.password};expires=Fri, 31 Dec 2100 12:00:00 UTC`;
-      } else {
-        this.showLoginError = true;
-      }
+    create() {
+      sessionStorage.setItem("username", this.username);
+      sessionStorage.setItem("school", this.school);
+      sessionStorage.setItem("creating", "1");
+      this.login("true");
+    },
+    login(create: string) {
+      sessionStorage.setItem("logging", "1");
+      const currentLocation = window.location.origin;
+      console.log(currentLocation);
+      window.location.href = `https://starvation-api.buildingblocs.sg/login?next=${currentLocation}&create=${create}`;
     },
       getCookie(cname: string) {
         let name = cname + "=";
@@ -330,8 +299,9 @@ export default Vue.extend({
         return "";
       },
       logout() {
-        document.cookie = "username=;expires=Fri, 31 Dec 2100 12:00:00 UTC";
-        document.cookie = "password=;expires=Fri, 31 Dec 2100 12:00:00 UTC";
+        localStorage.removeItem("jwt");
+        localStorage.removeItem("refresh");
+        localStorage.removeItem("renew");
         this.$store.state.user = null;
       }
   },
@@ -370,11 +340,52 @@ export default Vue.extend({
   mounted() {
     window.addEventListener("scroll", this.onScroll);
 
-    if (this.getCookie("username") != "" && this.getCookie("password")) {
-      this.username = this.getCookie("username");
-      this.password = this.getCookie("password");
-      this.login();
-    }
+    // check logged in
+    checkLoggedIn().then((resp) => {
+      console.log(resp.data);
+      if (resp.data.status) {
+        if (sessionStorage.getItem("creating")) {
+          const username = sessionStorage.getItem("username") ?? "";
+          const school = sessionStorage.getItem("school") ?? "";
+          let player = resp.data.user as Player;
+          player.username = username;
+          player.fullname = username;
+          player.school = school;
+          updateDetails(player).then(() => {
+            this.$store.state.user = player;
+          });
+        } else {
+          this.$store.state.user = resp.data.user;
+        }
+        sessionStorage.clear();
+      } else {
+        if (sessionStorage.getItem("logging")) {
+          const uri = window.location.search; 
+          const params = new URLSearchParams(uri);
+          const code = params.get("code");
+          console.log(code);
+          if (code) {
+              resolveLogin(code as string).then((resp) => {
+                localStorage.setItem("jwt", resp.data.access_token);
+                localStorage.setItem("refresh", resp.data.refresh_token);
+                localStorage.setItem("renew", resp.data.renew);
+                window.location.href = window.location.origin;
+              });
+          } else {
+            sessionStorage.clear();
+            this.showLoginError = true;
+          }
+        } else {
+          sessionStorage.clear();
+        }
+      }
+    });
+
+    // if (this.getCookie("username") != "" && this.getCookie("password")) {
+    //   this.username = this.getCookie("username");
+    //   this.password = this.getCookie("password");
+    //   this.login();
+    // }
   }
 });
 </script>

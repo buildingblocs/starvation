@@ -1,11 +1,11 @@
 import {QuotableQuote, Quote} from "@/types/quotes";
-import axios from "axios";
+import getAPI from "@/util/axios";
 import {Player} from "@/types/players";
 
 const random_quotable_url = "https://api.quotable.io/random";
 
 export async function getPlayers(): Promise<Player[]> {
-  return await (await fetch("/getPlayers")).json();
+  return (await getAPI().get("/getPlayers")).data;
 }
 
 export async function getQuotableQuote(): Promise<QuotableQuote> {
@@ -36,12 +36,12 @@ function blobToBase64(blob: any): Promise<string> {
 }
 
 export async function deleteAccount(email: string) {
-  await axios.post("/deleteUser", { id: email });
+  await getAPI().post("/deleteUser", { id: email });
 }
 
 
 export async function createUser(email: string, name: string, given_name: string, photo: string) {
-  await axios.post("/addUser", { id: email, fullname: name, username: given_name, about: "", school: "", photo });
+  await getAPI().post("/addUser", { id: email, fullname: name, username: given_name, about: "", school: "", photo });
 }
 
 /**
@@ -58,10 +58,10 @@ class Result {
   runtime!: number
 }
 
-export async function getResults(code: string, level: number): Promise<any> {
+export async function getResults(code: string, level: number, id: string): Promise<any> {
   let results: Result = {details: [], result: "right", runtime: 0};
-  await axios.post("/sendCodeAI",
-  { code, level })
+  await getAPI().post("/sendCodeAI",
+  { code, level, id })
   .then(res => {
     results = res.data.output as Result;
     console.log(results);
@@ -77,5 +77,13 @@ export async function getResults(code: string, level: number): Promise<any> {
 
 export async function updateDetails(playerDetails: Player) {
   console.log("calling updateDetails");
-  await axios.post("/updateDetails", playerDetails);
+  await getAPI().post("/updateDetails", playerDetails);
+}
+
+export async function checkLoggedIn(): Promise<any> {
+  return await getAPI().get("/testLogin");
+}
+
+export async function resolveLogin(code: string): Promise<any> {
+  return await getAPI().get("/login/resolver", { params: { code } });
 }
