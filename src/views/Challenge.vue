@@ -144,10 +144,10 @@ export default {
       let result = await getResults(this.challenge.prepend+ "\n" + this.code + "\n" + this.challenge.append, this.id, this.$store.state.user.id);
       this.results = result.details;
       console.log(this.results);
-      await updateResults(this.$store.state.user.id, this.$route.params.id, this.code);
       clearInterval(this.animId);
       this.animId = setInterval(this.update, 10);
       this.troops = [];
+      //updateResults(this.$store.state.user.id, this.$route.params.id, this.code);
     },
 
     save() {
