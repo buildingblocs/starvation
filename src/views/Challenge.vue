@@ -115,7 +115,7 @@
             <v-card-title class="text-h4">
               {{winner}} Wins!
             </v-card-title>
-            <v-card-text class="text-body-1">{{ (winner == 'Left' ? 'Good Job!' : 'Oops, try again!') }}</v-card-text>
+            <v-card-text class="text-body-1">{{ (winner == 'You' ? 'Good Job!' : 'Oops, try again!') }}</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
@@ -177,7 +177,7 @@ export default {
       this.loading = true;
       let result = await getResults(this.challenge.prepend+ "\n" + this.code + "\n" + this.challenge.append, this.id, this.$store.state.user.id);
       this.results = result.details;
-      this.winner = result.result[0].toUpperCase() + result.result.substring(1);
+      this.winner = result.result == "left" ? "You" : "AI";
       this.loading = false;
       console.log(this.results);
       clearInterval(this.animId);
