@@ -19,7 +19,7 @@
 
           </v-img>
         </div>
-          <div class="justify-center" :style="{'margin-left': '500px', 'bottom': '102px', 'position':'absolute', 'font-size':'8pt', 'align':'center'}">
+          <div class="justify-center" :style="{'margin-left': '500px', 'bottom': '100px', 'position':'absolute', 'font-size':'8pt', 'align':'center'}">
             {{ oppHealth }}<br>
             <v-img :width="50"
                   :src="sprites.oppBase">
