@@ -1,5 +1,5 @@
 import axios from "axios";
-  
+
 export function getAPI() {
     let jwt = localStorage.getItem("jwt");
     if (jwt === "undefined") {
@@ -7,7 +7,7 @@ export function getAPI() {
         jwt = null;
     }
     const api = axios.create({
-        withCredentials: true,
+        withCredentials: false,
         baseURL: "https://starvation-api.buildingblocs.sg/",
         headers: {
             "Authorization": (jwt ? `Bearer ${jwt}` : null)
