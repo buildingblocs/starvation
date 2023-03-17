@@ -46,11 +46,8 @@
               v-model="code"
               width="auto"
             ></CodeEditorVue>
-            <v-btn v-bind="props" @click="run">
+            <v-btn v-bind="props" @click="run()">
               Run
-            </v-btn>
-            <v-btn v-bind="props" @click="save">
-              Save
             </v-btn>
           </template>
         </v-menu>
@@ -90,14 +87,6 @@
         @click="run()"
       >
         <v-icon>mdi-play-outline</v-icon>
-      </v-btn>
-      <v-btn
-        fab
-        dark
-        small
-        color="indigo"
-      >
-        <v-icon>mdi-content-save</v-icon>
       </v-btn>
       <v-btn
         fab

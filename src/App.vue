@@ -144,6 +144,7 @@
                       <v-text-field
                         x-large
                         v-model="username"
+                        :rules="[rules]"
                         placeholder="Username"
                         @input="checkAvailability"
                         required
@@ -213,7 +214,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import {getBase64, createUser, checkLoggedIn, updateDetails, resolveLogin} from "@/api/api";
+import {getBase64, createUser, checkLoggedIn, updateDetails, resolveLogin, checkUsername} from "@/api/api";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import GoogleSignInButton from "vue-google-identity-login-btn";
@@ -230,6 +231,13 @@ export default Vue.extend({
   data: () => ({
     drawerShown: false,
     loginItems: ["Login", "Register"],
+    rules: (input: string | undefined) => {
+          if (input === undefined || input === "") return true;
+          if (input.trim().toLowerCase().match(/^[a-z0-9_-]+$/) !== null) {
+            return true;
+          }
+          return "Invalid";
+        },
     username: "",
     school: "",
     fullname: "",
@@ -263,7 +271,7 @@ export default Vue.extend({
       };
     },
     checkAvailability(input: string): boolean {
-      return true;
+      return !checkUsername(input);
     },
     scrollToMain() {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
