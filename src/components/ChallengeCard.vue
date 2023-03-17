@@ -11,7 +11,7 @@
     </v-card-subtitle>
     <v-spacer/>
     <v-card-actions>
-      <v-btn color="primary" dark :href="'#/challenges/' + challenge.id">
+      <v-btn color="primary" dark :href="'#/challenge/' + challenge.id">
         Open
       </v-btn>
     </v-card-actions>

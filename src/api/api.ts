@@ -52,12 +52,18 @@ export async function createUser(email: string, name: string, given_name: string
     about = data["about"]
  */
 
+class Result {
+  details!: Array<any>
+  result!: string
+  runtime!: number
+}
+
 export async function getResults(code: string, level: number): Promise<any> {
-  let results: any = [];
+  let results: Result = {details: [], result: "right", runtime: 0};
   await axios.post("/sendCodeAI",
   { code, level })
   .then(res => {
-    results = res.data.output;
+    results = res.data.output as Result;
     console.log(results);
   },
   res => {

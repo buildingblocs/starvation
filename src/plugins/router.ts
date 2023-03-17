@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Main from "@/views/Main.vue";
 import { default as Profile } from "@/views/Profile.vue";
 import Challenges from "@/views/Challenges.vue";
 import Leaderboard from "@/views/Leaderboard.vue";
@@ -22,7 +21,7 @@ const routes: Array<RouteConfig> = [
     component: Leaderboard
   },
   {
-    path: "/challenges/:id",
+    path: "/challenge/:id",
     component: Challenge
   }
 ];

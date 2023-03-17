@@ -84,7 +84,7 @@
         label="School"
         v-model="user.school"
         :items=schools
-        :disabled="user.school.length !== 0 || user.username != $store.state.user.username"
+        :disabled="user.username != $store.state.user.username"
         @change="updateSchool()"
       ></v-combobox>
 
@@ -103,17 +103,10 @@ import school_list from "../data/schools.json";
 
 import challenges from "../data/challenges.json";
 
-import users from "../data/users.json";
-import games from "../games/games.json";
-
 import { timeAgo } from "@/util/datetime";
-
 import { getPlayers } from "@/api/api";
-
 import { Player } from "@/types/players";
-
 import { updateDetails, deleteAccount } from "@/api/api";
-
 import ImageInput from "@/components/ImageInput.vue";
 
 export default Vue.extend({
@@ -141,23 +134,6 @@ export default Vue.extend({
         {text: "Score", value: "score"},
         {text: "Last Solved", value: "lastUpdated"}],
       challenges:  challenges.filter(it => it.completed)
-      // [
-      //   {
-      //     name: "Mission 0: Getting Started",
-      //     score: 100,
-      //     at: new Date(1676978364407)
-      //   },
-      //   {
-      //     name: "Mission 1: Paging for Python!",
-      //     score: 99,
-      //     at: new Date(1677143957326)
-      //   },
-      //   {
-      //     name: "Mission 2: Let's do this.",
-      //     score: 14,
-      //     at: new Date(1677151081207)
-      //   },
-      // ]//.map((item) => { item.time = timeAgo.format(item.at); })
     };
   },
   watch:{
@@ -194,12 +170,10 @@ export default Vue.extend({
       return "";
     },
     updateSchool() {
-      document.cookie="school="+this.user.school+";expires=Fri, 31 Dec 2100 12:00:00 UTC";
       updateDetails(this.user);
 
     },
     updateAbout() {
-      document.cookie="about="+this.user.about+";expires=Fri, 31 Dec 2100 12:00:00 UTC";
       updateDetails(this.user);
     },
     deleteUser() {
@@ -209,8 +183,6 @@ export default Vue.extend({
   },
   async mounted() {
     this.user = (await getPlayers()).filter(it => it.username == this.$route.params.username)[0];
-    this.updateSchool();
-    this.updateAbout();
     this.avatar.image = this.user.pfp;
   }
 });

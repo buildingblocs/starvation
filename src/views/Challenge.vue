@@ -2,10 +2,10 @@
   <v-container fluid id="create">
     <v-card class="pa-2 ma-2">
       <v-card-title class="text--primary justify-center"
-        >Mission {{ selectedTask.id }}: {{ selectedTask.title }}</v-card-title
+        >Mission {{ challenge.id }}: {{ challenge.title }}</v-card-title
       >
       <v-card-subtitle class="text--primary justify-center">
-        <span align="center">{{ selectedTask.description }}</span>
+        <span align="center">{{ challenge.description }}</span>
       </v-card-subtitle>
     </v-card>
 
@@ -115,9 +115,7 @@
 <script>
 import CodeEditorVue from "simple-code-editor";
 import challenges from "../data/games.json";
-import attempts from "../data/attempts.json";
 import sprites from "../data/sprites.json";
-import results from "../data/results.json";
 import { getResults } from "@/api/api";
 
 export default {
@@ -129,8 +127,8 @@ export default {
     return {
       editorMinWidth: 10,
       editorMinHeight: 10,
-      id: +this.$route.params.id,
-      challenge: challenges,
+      challenge: {id: 0, title: "", description: "", template: ""},
+      id: 0,
       fab: false,
       code: "",
       sprites: sprites,
@@ -139,24 +137,23 @@ export default {
       animId: 0,
       timeFrame: 0,
       troops: [],
-      results: results
+      results: []
     };
   },
-
-  computed: {
-    selectedTask() {
-      return challenges.find(challenge => challenge.id === this.$route.params.id);
-    }
-  },
-
   mounted() {
-    this.code = this.selectedTask.template;
+    console.log(challenges);
+    console.log(this.$route.params.id);
+    this.challenge = challenges[this.$route.params.id-1];
+    console.log(this.challenge);
+    this.id = this.$route.params.id;
+    this.code = this.challenge.template;
   },
 
   methods: {
     async run() {
       console.log(this.code);
-      this.results = await getResults(this.selectedTask.prepend+ "\n" + this.code + "\n" + this.selectedTask.append, this.$route.params.id);
+      let result = await getResults(this.challenge.prepend+ "\n" + this.code + "\n" + this.challenge.append, this.id);
+      this.results = result.details;
       console.log(this.results);
       clearInterval(this.animId);
       this.animId = setInterval(this.update, 10);
@@ -172,14 +169,14 @@ export default {
       clearInterval(this.animId);
     },
     update() {
-      if(this.timeFrame == this.results.length || this.results[this.timeFrame]["1"].Health < 0 || this.results[this.timeFrame]["-1"].Health < 0) {
+      if(this.timeFrame == this.results.length || this.results[this.timeFrame]["1"].h < 0 || this.results[this.timeFrame]["-1"].h < 0) {
         clearInterval(this.animId);
         console.log("stopped");
         this.timeFrame = 0;
 
       } else {
-        this.homeHealth = this.results[this.timeFrame]["1"].Health;
-        this.oppHealth = this.results[this.timeFrame]["-1"].Health;
+        this.homeHealth = this.results[this.timeFrame]["1"].h;
+        this.oppHealth = this.results[this.timeFrame]["-1"].h;
         for(const [troopId, troop] of Object.entries(this.results[this.timeFrame])) {
           if((troopId == "-1") || (troopId == "1")) continue;
 
@@ -189,19 +186,19 @@ export default {
             // already exists
 
             let itemIndex = this.troops.indexOf(search[0]);
-            if(troop.Health >= 0) {
-              this.troops[itemIndex].health = troop.Health;
+            if(troop.h >= 0) {
+              this.troops[itemIndex].h = troop.h;
               this.troops[itemIndex].marginLeft = (troop.Position / 1000) * 450 + 50;
             } else {
-              this.troops[itemIndex].health = troop.Health;
+              this.troops[itemIndex].h = troop.h;
               this.troops = this.troops.splice(itemIndex, 1);
               console.log("troop died!");
             }
           } else {
-            if(troop.Health < 0) continue;
+            if(troop.h < 0) continue;
             this.troops.push({
               id: troopId,
-              health: troop.Health,
+              health: troop.h,
               marginLeft: (troop.Position / 1000) * 450 + 50,
               imgSrc: troopId.includes("-") ? sprites.oppTroop : sprites.homeTroop
             });
