@@ -17,7 +17,7 @@
           <span>{{ timeAgo.format(item.lastUpdated) }}</span>
         </template>
         <template v-slot:item.title="{ item }">
-          <a :href="`#/challenge/${item.id}`" style="color:#2A52BE">Mission {{ item.level }} - {{ item.title }}</a>
+          <a :href="`#/challenge/${item.level}`" style="color:#2A52BE">Mission {{ item.level }} - {{ item.title }}</a>
         </template>
       </v-data-table>
     </v-card>
