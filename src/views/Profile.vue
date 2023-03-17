@@ -182,7 +182,15 @@ export default Vue.extend({
     }
   },
   async mounted() {
+    try {
     this.user = (await getPlayers()).filter(it => it.username == this.$route.params.username)[0];
+    } catch (error) {
+      this.user = this.$route.params.username == this.$store.state.user.username ? this.$store.state.user: {
+        id: "", fullname: "", score: 0,
+        num_games: 0, about: "", school: "",
+        pfp: "", username: ""
+      };
+    }
     this.avatar.image = this.user.pfp;
     let results = await getChallenges(this.user.id);
     console.log(results);

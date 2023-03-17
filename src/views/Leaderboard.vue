@@ -58,7 +58,7 @@ export default Vue.extend({
     }
   },
   async mounted() {
-    this.users = (await getPlayers()).sort((a, b) => {
+    this.users = (await getPlayers()).filter(it => it.id.includes("@")).sort((a, b) => {
         return a.score === b.score ? a.fullname.localeCompare(b.fullname) : (b.score ?? 0) - (a.score ?? 0);
       }).map((it, index) => ({
         rank: index == 0 ? "🥇" : index == 1 ? "🥈" : index == 2 ? "🥉" : index+1,
