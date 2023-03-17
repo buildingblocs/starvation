@@ -214,13 +214,13 @@ export default {
       let result = await getResults(this.challenge.prepend+ "\n" + this.code + "\n" + this.challenge.append, this.id, this.$store.state.user.id);
       console.log(result);
       const status = result.status;
+      result = result.output;
       if (!status) {
         this.errorName = result.error;
         this.errorDetails = result.details;
         this.showError = true;
         return;
       }
-      result = result.output;
       this.results = result.details;
       this.winner = result.result === "left" ? "You" : (result.result === "right" ? "AI" : "Draw");
       this.loading = false;
