@@ -46,11 +46,8 @@
               v-model="code"
               width="auto"
             ></CodeEditorVue>
-            <v-btn v-bind="props" @click="run">
+            <v-btn v-bind="props" @click="run()">
               Run
-            </v-btn>
-            <v-btn v-bind="props" @click="save">
-              Save
             </v-btn>
           </template>
         </v-menu>
@@ -95,14 +92,6 @@
         fab
         dark
         small
-        color="indigo"
-      >
-        <v-icon>mdi-content-save</v-icon>
-      </v-btn>
-      <v-btn
-        fab
-        dark
-        small
         color="red"
       >
         <v-icon>mdi-delete</v-icon>
@@ -116,7 +105,7 @@
 import CodeEditorVue from "simple-code-editor";
 import challenges from "../data/games.json";
 import sprites from "../data/sprites.json";
-import { getResults } from "@/api/api";
+import { getResults, updateResults } from "@/api/api";
 
 export default {
   components: {
@@ -155,6 +144,7 @@ export default {
       let result = await getResults(this.challenge.prepend+ "\n" + this.code + "\n" + this.challenge.append, this.id, this.$store.state.user.id);
       this.results = result.details;
       console.log(this.results);
+      await updateResults(this.$store.state.user.id, this.$route.params.id, this.code);
       clearInterval(this.animId);
       this.animId = setInterval(this.update, 10);
       this.troops = [];

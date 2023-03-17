@@ -18,6 +18,10 @@ export async function getRandomQuotableQuote(): Promise<Quote> {
 }
 
 
+export async function checkUsername(username: string) {
+  return await((await fetch(`/existsUsername?username=${username}`)).json().then(res => res.data.result));
+}
+
 export async function getBase64(url: string) {
   return blobToBase64(await (fetch(url).then(response => response.blob())));
 }
@@ -84,6 +88,12 @@ export async function checkLoggedIn(): Promise<any> {
   return await getAPI().get("/testLogin", {
     withCredentials:false
     // put the rest of your config here
+  });
+}
+
+export async function updateResults(id: string, level: number, code: string): Promise<any> {
+  return await getAPI().post("/updateChallenge", {
+    id, level, code
   });
 }
 

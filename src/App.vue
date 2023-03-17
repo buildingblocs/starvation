@@ -144,12 +144,25 @@
                       <v-text-field
                         x-large
                         v-model="username"
+                        :rules="[rules]"
                         placeholder="Username"
                         @input="checkAvailability"
                         required
                       ></v-text-field>
                       <v-spacer />
                     </v-col>
+                    <v-col cols="12" sm="4">
+                      <h3>Full Name</h3>
+                      <v-text-field
+                        x-large
+                        v-model="fullname"
+                        placeholder="Full Name"
+                        required
+                      ></v-text-field>
+                      <v-spacer />
+                    </v-col>
+                  </v-row>
+                  <v-row align="center" justify="center" class="ma-4">
                     <v-col cols="12" sm="4">
                       <h3>School</h3>
                       <v-text-field
@@ -163,7 +176,8 @@
                   </v-row>
                 </v-form>
                 <v-row align="center" justify="center" class="my-6">
-                  <v-btn x-large color="primary" @click="create()" v-if="$store.state.user == null">
+                  <v-btn x-large color="primary" :disabled="username=='' || fullname==''"
+                  @click="create()" v-if="$store.state.user == null">
                     Register with Google
                   </v-btn>
                 </v-row>
@@ -200,12 +214,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-import users from "./data/users.json";
-import {getBase64, createUser, checkLoggedIn, updateDetails, resolveLogin} from "@/api/api";
+import {getBase64, createUser, checkLoggedIn, updateDetails, resolveLogin, checkUsername} from "@/api/api";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import GoogleSignInButton from "vue-google-identity-login-btn";
 import { Player } from "./types/players";
+import school_list from "../data/schools.json";
 
 export default Vue.extend({
   name: "App",
@@ -217,8 +231,16 @@ export default Vue.extend({
   data: () => ({
     drawerShown: false,
     loginItems: ["Login", "Register"],
+    rules: (input: string | undefined) => {
+          if (input === undefined || input === "") return true;
+          if (input.trim().toLowerCase().match(/^[a-z0-9_-]+$/) !== null) {
+            return true;
+          }
+          return "Invalid";
+        },
     username: "",
     school: "",
+    fullname: "",
     password: "",
     backgroundImg:
       "https://images.unsplash.com/photo-1597407068889-782ba11fb621?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8ZGFyayUyMG1vdW50YWlufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
@@ -249,7 +271,7 @@ export default Vue.extend({
       };
     },
     checkAvailability(input: string): boolean {
-      return true;
+      return !checkUsername(input);
     },
     scrollToMain() {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -274,6 +296,7 @@ export default Vue.extend({
     create() {
       sessionStorage.setItem("username", this.username);
       sessionStorage.setItem("school", this.school);
+      sessionStorage.setItem("fullname", this.fullname);
       sessionStorage.setItem("creating", "1");
       this.login("true");
     },
@@ -346,10 +369,11 @@ export default Vue.extend({
       if (resp.data.status) {
         if (sessionStorage.getItem("creating")) {
           const username = sessionStorage.getItem("username") ?? "";
+          const fullname = sessionStorage.getItem("fullname") ?? "";
           const school = sessionStorage.getItem("school") ?? "";
           let player = resp.data.user as Player;
           player.username = username;
-          player.fullname = username;
+          player.fullname = fullname;
           player.school = school;
           updateDetails(player).then(() => {
             this.$store.state.user = player;
