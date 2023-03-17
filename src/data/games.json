@@ -4,7 +4,7 @@
         "title": "Learning the Game - The Basics",
         "description": "Mario hates Luigi, and wants to attack him. He will send a clone of himself every few seconds but he needs your help training them. With the distributeSkill function, help him decide how to train each Mario clone",
         "prepend": "",
-        "append": "def decideAction(self):\n    attackable = enemiesWithinRange(self)\n    if (len(attackable) != 0): self.attack(attackable[0])\n    else: self.move(1)",
+        "append": "from gameAPI import enemiesWithinRange\ndef decideAction(self):\n    attackable = enemiesWithinRange(self)\n    if (len(attackable) != 0): self.attack(attackable[0])\n    else: self.move(1)",
         "template": "def distributeSkill(skill_points):\n    '''\n    Mario's Clones have 4 main properties:\n        - Health\n        - Damage\n        - Range\n        - Speed\n        \n    Skill points increase as the game goes on!\n    You start with 4 and gain more as Luigi fights on!\n    '''\n    health = 0\n    damage = 0\n    range = 0\n    speed = 0\n    return [health, damage, range, speed]\n"
     },
     {
